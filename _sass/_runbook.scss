@@ -1,0 +1,49 @@
+/*******************************************************************************
+ * Runbook design language
+ * Editorial paper + ink + one red-orange accent.
+ * Carries the visual language from /Users/mfcabrera/src/plato/presentation-runbook
+ * across to the blog. Same person, same voice, different surface.
+ ******************************************************************************/
+
+// ── Tokens ────────────────────────────────────────────────────────────────────
+$rb-paper:        #f5f1e8;
+$rb-paper-alt:    #ebe4d2;
+$rb-ink:          #141414;
+$rb-ink-2:        #3a3a3a;
+$rb-muted:        #6b6b6b;
+$rb-rule:         rgba(20, 20, 20, 0.22);
+$rb-accent:       #d93a1a;
+$rb-accent-soft:  #b8331c; // toned for body links / dense text
+$rb-black:        #0e0e0e;
+$rb-paper-dark:   #f5f1e8; // text colour on dark surfaces
+$rb-rule-dark:    rgba(245, 241, 232, 0.22);
+
+// ── Type stack ────────────────────────────────────────────────────────────────
+$rb-font-serif:   "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+$rb-font-sans:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$rb-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+// ── Type scale (extended for long-form reading) ───────────────────────────────
+$rb-font-size-base:   17px;
+$rb-line-height-base: 1.65;
+$rb-measure:          68ch;
+
+// ── Chrome utilities ──────────────────────────────────────────────────────────
+@mixin rb-mono-chrome($size: 11px, $tracking: 0.18em, $color: var(--global-text-color-light)) {
+  font-family: $rb-font-mono;
+  font-size: $size;
+  letter-spacing: $tracking;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: $color;
+}
+
+@mixin rb-figure {
+  font-family: $rb-font-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}

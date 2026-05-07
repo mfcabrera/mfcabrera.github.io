@@ -1,0 +1,313 @@
+/*******************************************************************************
+ * Runbook overrides
+ * Maps al-folio's CSS custom properties onto Runbook tokens, then applies
+ * the visual language across base elements.
+ *
+ * Loaded LAST so it wins over al-folio's defaults without !important.
+ ******************************************************************************/
+
+// ── Theme variable remapping ──────────────────────────────────────────────────
+
+:root {
+  // Light theme = warm paper + ink
+  --global-bg-color:           #{$rb-paper};
+  --global-code-bg-color:      #{$rb-paper-alt};
+  --global-text-color:         #{$rb-ink};
+  --global-text-color-light:   #{$rb-muted};
+  --global-theme-color:        #{$rb-accent};
+  --global-hover-color:        #{$rb-accent};
+  --global-hover-text-color:   #{$rb-paper};
+  --global-divider-color:      #{$rb-rule};
+  --global-card-bg-color:      transparent;
+  --global-highlight-color:    #{$rb-accent};
+  --global-footer-bg-color:    #{$rb-ink};
+  --global-footer-text-color:  #{$rb-paper};
+  --global-footer-link-color:  #{$rb-paper};
+
+  // Body link colour: ink with hairline underline (NOT accent).
+  // Reserve --global-theme-color for <strong>, hovered links, current nav.
+  --rb-link-color:             #{$rb-ink};
+  --rb-link-hover-color:       #{$rb-accent};
+  --rb-rule-color:             #{$rb-rule};
+  --rb-paper:                  #{$rb-paper};
+  --rb-paper-alt:              #{$rb-paper-alt};
+  --rb-ink:                    #{$rb-ink};
+  --rb-muted:                  #{$rb-muted};
+  --rb-accent:                 #{$rb-accent};
+}
+
+html[data-theme="dark"] {
+  // Dark theme = paper inverted (Runbook's rb-dark slide variant)
+  --global-bg-color:           #{$rb-black};
+  --global-code-bg-color:      #1a1a17;
+  --global-text-color:         #{$rb-paper};
+  --global-text-color-light:   rgba(245, 241, 232, 0.55);
+  --global-theme-color:        #{$rb-accent};
+  --global-hover-color:        #{$rb-accent};
+  --global-hover-text-color:   #{$rb-black};
+  --global-divider-color:      #{$rb-rule-dark};
+  --global-card-bg-color:      transparent;
+  --global-highlight-color:    #{$rb-accent};
+  --global-footer-bg-color:    #{$rb-paper};
+  --global-footer-text-color:  #{$rb-ink};
+  --global-footer-link-color:  #{$rb-ink};
+
+  --rb-link-color:             #{$rb-paper};
+  --rb-link-hover-color:       #{$rb-accent};
+  --rb-rule-color:             #{$rb-rule-dark};
+}
+
+// ── Type ──────────────────────────────────────────────────────────────────────
+
+body {
+  font-family: $rb-font-sans;
+  font-size: $rb-font-size-base;
+  line-height: $rb-line-height-base;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.post-title, .page-title {
+  font-family: $rb-font-serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--global-text-color);
+}
+
+h1, .post-title {
+  font-size: 2.25rem;   // ~36px
+  line-height: 1.15;
+  margin-top: 0.4em;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-size: 1.5rem;    // 24px
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-size: 1.125rem;  // 18px
+  font-family: $rb-font-sans;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+h4, h5, h6 {
+  font-size: 1rem;
+  font-family: $rb-font-sans;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1.1em;
+}
+
+// Em / italic — secondary ink in light, slightly muted in dark
+em { color: var(--global-text-color); font-style: italic; }
+
+// Strong = the one place body copy uses accent
+strong, b {
+  color: var(--global-theme-color);
+  font-weight: 600;
+}
+
+// ── Links: restrained ─────────────────────────────────────────────────────────
+
+a, a:visited {
+  color: var(--rb-link-color);
+  text-decoration: underline;
+  text-decoration-color: var(--rb-rule-color);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+a:hover, a:focus-visible {
+  color: var(--rb-link-hover-color);
+  text-decoration-color: var(--rb-link-hover-color);
+}
+
+// Header / nav links: no underline (chrome is its own register)
+.navbar a,
+.navbar .nav-link,
+header a,
+.post-meta a,
+.list-group a {
+  text-decoration: none;
+}
+.navbar a:hover, .navbar .nav-link:hover {
+  color: var(--rb-link-hover-color);
+}
+
+// ── Code ──────────────────────────────────────────────────────────────────────
+
+code, pre, kbd, samp {
+  font-family: $rb-font-mono;
+}
+
+:not(pre) > code {
+  background: var(--global-code-bg-color);
+  color: var(--global-text-color);
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-size: 0.88em;
+}
+
+pre, .highlight, figure.highlight {
+  background: var(--global-code-bg-color) !important;
+  border: 1px solid var(--rb-rule-color);
+  border-radius: 2px;
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  box-shadow: none;
+}
+
+// ── Blockquote (Runbook style) ────────────────────────────────────────────────
+
+blockquote {
+  border-left: 3px solid var(--global-theme-color);
+  padding: 4px 18px;
+  margin: 1.5em 0;
+  font-family: $rb-font-serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--global-text-color);
+  background: transparent;
+}
+
+// ── Tables (Runbook style) ────────────────────────────────────────────────────
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  margin: 1.5em 0;
+}
+table th {
+  background: transparent;
+  color: var(--global-text-color-light);
+  border-bottom: 2px solid var(--global-text-color);
+  border-top: none;
+  padding: 8px 12px 8px 0;
+  text-align: left;
+  font-family: $rb-font-mono;
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+table td {
+  border-bottom: 1px solid var(--rb-rule-color);
+  padding: 9px 12px 9px 0;
+  color: var(--global-text-color);
+  vertical-align: top;
+}
+
+// ── Horizontal rule ──────────────────────────────────────────────────────────
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rb-rule-color);
+  margin: 2.5em 0;
+}
+
+// ── Reusable utilities (carry from skill) ─────────────────────────────────────
+
+.rb-eyebrow {
+  @include rb-mono-chrome($size: 0.7rem, $tracking: 0.22em, $color: var(--global-theme-color));
+  margin-bottom: 0.6rem;
+  display: inline-block;
+}
+.rb-eyebrow--muted { color: var(--global-text-color-light); }
+
+.rb-mono {
+  @include rb-mono-chrome;
+}
+
+.rb-figure {
+  @include rb-figure;
+  color: var(--global-text-color);
+}
+.rb-figure--accent { color: var(--global-theme-color); }
+
+.rb-card {
+  border: 1px solid var(--rb-rule-color);
+  padding: 14px 16px;
+  background: transparent;
+  border-radius: 2px;
+}
+.rb-card--hi {
+  border-color: var(--global-theme-color);
+  background: rgba(217, 58, 26, 0.10);
+}
+
+// Numbered runbook row — used on archive and TOC homepage
+.rb-numrow {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  column-gap: 18px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rb-rule-color);
+  text-decoration: none;
+  color: inherit;
+
+  &:last-child { border-bottom: none; }
+
+  &__n {
+    @include rb-figure;
+    font-size: 1.4rem;
+    color: var(--global-theme-color);
+  }
+  &__title {
+    font-family: $rb-font-serif;
+    font-weight: 500;
+    font-size: 1.125rem;
+    color: var(--global-text-color);
+    line-height: 1.3;
+  }
+  &__sub {
+    font-size: 0.85rem;
+    color: var(--global-text-color-light);
+    margin-top: 2px;
+  }
+  &__meta {
+    @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color-light));
+    white-space: nowrap;
+  }
+}
+
+a.rb-numrow:hover {
+  background: rgba(217, 58, 26, 0.04);
+  .rb-numrow__title { color: var(--global-theme-color); }
+}
+
+// ── Code listing caption ──────────────────────────────────────────────────────
+
+figure.highlight figcaption,
+.listing-caption {
+  @include rb-mono-chrome($size: 0.7rem, $tracking: 0.18em, $color: var(--global-text-color-light));
+  display: block;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rb-rule-color);
+  margin-bottom: 8px;
+}
+
+// ── Selection ────────────────────────────────────────────────────────────────
+
+::selection {
+  background: rgba(217, 58, 26, 0.18);
+  color: var(--global-text-color);
+}
