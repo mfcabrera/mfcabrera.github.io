@@ -2,16 +2,16 @@
 layout: default
 ---
 <div class="post">
-  <header class="post-header">
+  <header class="post-header rb-post-header">
     {% if page.type == 'categories' %}
-      <h1 class="post-title"><i class="fa-solid fa-tag fa-sm"></i> {{ page.title }}</h1>
-      <p class="post-description">an archive of {{ page.collection_name }} in this category</p>
+      <div class="rb-eyebrow rb-eyebrow--muted">Category</div>
+      <h1 class="post-title">{{ page.title }}</h1>
     {% elsif page.type == 'year' %}
-      <h1 class="post-title"><i class="fa-solid fa-calendar fa-sm"></i> {{ page.date | date: '%Y' }}</h1>
-      <p class="post-description">an archive of {{ page.collection_name }} from this year</p>
+      <div class="rb-eyebrow rb-eyebrow--muted">Year</div>
+      <h1 class="post-title">{{ page.date | date: '%Y' }}</h1>
     {% elsif page.type == 'tags' %}
-      <h1 class="post-title"><i class="fa-solid fa-hashtag fa-sm"></i> {{ page.title }}</h1>
-      <p class="post-description">an archive of {{ page.collection_name }} with this tag</p>
+      <div class="rb-eyebrow rb-eyebrow--muted">Tag</div>
+      <h1 class="post-title">{{ page.title }}</h1>
     {% endif %}
   </header>
 

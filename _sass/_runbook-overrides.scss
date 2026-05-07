@@ -305,6 +305,161 @@ figure.highlight figcaption,
   margin-bottom: 8px;
 }
 
+// ── Post header (Runbook breadcrumb + meta) ──────────────────────────────────
+
+.rb-post-header {
+  border-bottom: 1px solid var(--rb-rule-color);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.rb-breadcrumb {
+  @include rb-mono-chrome($size: 0.7rem, $tracking: 0.18em, $color: var(--global-text-color-light));
+  margin-bottom: 0.9rem;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:hover { color: var(--global-theme-color); }
+  }
+}
+.rb-breadcrumb-sep {
+  display: inline-block;
+  margin: 0 0.5em;
+  opacity: 0.5;
+}
+
+.rb-post-meta {
+  @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color-light));
+  margin-top: 0.6rem;
+  margin-bottom: 0;
+  text-align: left;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rb-rule-color);
+    &:hover { color: var(--global-theme-color); border-bottom-color: var(--global-theme-color); }
+  }
+  &__sep {
+    display: inline-block;
+    margin: 0 0.5em;
+    opacity: 0.5;
+  }
+}
+
+.rb-post-tags {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+
+  a, span {
+    display: inline-block;
+    margin-right: 0.6em;
+    color: inherit;
+    text-decoration: none;
+
+    &::before { content: "#"; opacity: 0.55; margin-right: 0.05em; }
+    &:hover { color: var(--global-theme-color); }
+  }
+}
+
+// ── Code listing caption (LISTING N · lang) ──────────────────────────────────
+//
+// Apply by wrapping a code block:
+//   <figure class="rb-listing" data-lang="python" data-n="1">
+//     ```python
+//     ...
+//     ```
+//     <figcaption>Description</figcaption>
+//   </figure>
+//
+// Counter handles auto-numbering when `data-n` not supplied.
+
+.rb-listing {
+  counter-increment: rb-listing;
+  margin: 1.8em 0;
+
+  &::before {
+    content: "Listing " counter(rb-listing)
+             " · " attr(data-lang);
+    @include rb-mono-chrome($size: 0.7rem, $tracking: 0.18em, $color: var(--global-text-color-light));
+    display: block;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--rb-rule-color);
+  }
+
+  figcaption {
+    @include rb-mono-chrome($size: 0.7rem, $tracking: 0.12em, $color: var(--global-text-color-light));
+    margin-top: 6px;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-style: italic;
+    font-family: $rb-font-serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+  }
+}
+
+#markdown-content { counter-reset: rb-listing; }
+
+// ── Archive page ─────────────────────────────────────────────────────────────
+
+.rb-archive {
+  .rb-archive-header {
+    border-bottom: 1px solid var(--rb-rule-color);
+    padding-bottom: 1.6rem;
+    margin-bottom: 2.4rem;
+    text-align: left;
+
+    .post-title {
+      margin-top: 0.3em;
+      font-size: 1.9rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      max-width: 32ch;
+    }
+  }
+
+  .rb-archive-featured,
+  .rb-archive-list {
+    margin-bottom: 2.5rem;
+
+    .rb-eyebrow {
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+  }
+}
+
+// Year/category/tag archive layout — share the look
+.archive {
+  table { border: none; }
+  table tr { border-bottom: 1px solid var(--rb-rule-color); }
+  table tr:last-child { border-bottom: none; }
+  table th[scope="row"] {
+    background: transparent;
+    border: none;
+    padding: 12px 18px 12px 0;
+    width: 8rem;
+    @include rb-mono-chrome($size: 0.75rem, $tracking: 0.14em, $color: var(--global-text-color-light));
+    vertical-align: baseline;
+    text-transform: none;
+  }
+  table td {
+    border: none;
+    padding: 12px 0;
+    font-family: $rb-font-serif;
+    font-size: 1.1rem;
+    a { text-decoration: none; }
+    a:hover { color: var(--global-theme-color); }
+  }
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {
