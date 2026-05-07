@@ -70,24 +70,6 @@ ninja.data = [{
             window.location.href = "/blog/2017/using-mypy-for-improving-your-codebase/";
           
         },
-      },{id: "post-this-site-runs-on-nikola",
-        
-          title: "This Site Runs on Nikola",
-        
-        description: "Migration from Jekyll to Nikola static site generator",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2017/this-site-runs-on-nikola/";
-          
-        },
-      },{
-        id: 'social-email',
-        title: 'email',
-        section: 'Socials',
-        handler: () => {
-          window.open("mailto:%6D%66%63%61%62%72%65%72%61@%67%6D%61%69%6C.%63%6F%6D", "_blank");
-        },
       },{
         id: 'social-github',
         title: 'GitHub',
