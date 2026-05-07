@@ -63,9 +63,14 @@ body {
   font-family: $rb-font-sans;
   font-size: $rb-font-size-base;
   line-height: $rb-line-height-base;
-  font-feature-settings: "ss01", "cv11";
+  // Inter on the web: enable contextual alternates and tabular figures.
+  // Skip the stylistic-set toggles from the Slidev deck — those produced
+  // unintended letterform swaps in the web build.
+  font-feature-settings: "cv02", "cv11", "kern", "calt";
+  font-variant-numeric: oldstyle-nums proportional-nums;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -126,9 +131,19 @@ em {
   font-style: italic;
 }
 
-// Strong = the one place body copy uses accent
+// Strong / b = ink at 600. Color is reserved for deliberate accents
+// (rb-eyebrow, rb-figure--accent, hover states, rb-pull). Bold-as-emphasis
+// stays monochrome — Tufte / eugeneyan reading of the one-accent rule.
 strong,
 b {
+  color: var(--global-text-color);
+  font-weight: 600;
+}
+
+// Pull-quote utility for the rare line where the takeaway should be
+// loud enough to be scanned in one second. Use sparingly — once per
+// post at most. Wrap inline:  <span class="rb-pull">…</span>
+.rb-pull {
   color: var(--global-theme-color);
   font-weight: 600;
 }
@@ -1061,87 +1076,252 @@ figure.highlight figcaption,
 // Light theme (paper background)
 .highlight {
   // Token defaults: collapse most into ink/muted; reserve accent for values
-  $rb-code-ink:    #1a1a1a;
-  $rb-code-muted:  #5a5a5a;
-  $rb-code-string: #6a4a3a;     // warm muted brown for strings
-  $rb-code-comment: #5a5a5a;    // comments italic but readable — they often carry real signal
-  $rb-code-accent:  #b8331c;    // soft accent (not the full red-orange)
+  $rb-code-ink: #1a1a1a;
+  $rb-code-muted: #5a5a5a;
+  $rb-code-string: #6a4a3a; // warm muted brown for strings
+  $rb-code-comment: #5a5a5a; // comments italic but readable — they often carry real signal
+  $rb-code-accent: #b8331c; // soft accent (not the full red-orange)
 
   color: $rb-code-ink;
 
   // ── Keywords / control flow — ink, weight ───────────────────────────
-  .k, .kd, .kn, .kp, .kr, .kt   { color: $rb-code-ink; font-weight: 600; }
-  .ow                            { color: $rb-code-ink; font-weight: 600; }   // and / or / not / in / is
+  .k,
+  .kd,
+  .kn,
+  .kp,
+  .kr,
+  .kt {
+    color: $rb-code-ink;
+    font-weight: 600;
+  }
+  .ow {
+    color: $rb-code-ink;
+    font-weight: 600;
+  } // and / or / not / in / is
 
   // ── Operators, punctuation — ink ────────────────────────────────────
-  .o, .p { color: $rb-code-ink; font-weight: 400; }
+  .o,
+  .p {
+    color: $rb-code-ink;
+    font-weight: 400;
+  }
 
   // ── Identifiers (variables, parameters) — default ink ───────────────
-  .n, .nv, .nl, .nx { color: $rb-code-ink; }
+  .n,
+  .nv,
+  .nl,
+  .nx {
+    color: $rb-code-ink;
+  }
 
   // ── Definitions: function / class names ─────────────────────────────
-  .nf, .nc, .nd { color: $rb-code-ink; font-weight: 500; }
+  .nf,
+  .nc,
+  .nd {
+    color: $rb-code-ink;
+    font-weight: 500;
+  }
 
   // ── Builtins (print, str, int, list, …) — muted ink ─────────────────
-  .nb, .bp, .nn { color: $rb-code-muted; }
+  .nb,
+  .bp,
+  .nn {
+    color: $rb-code-muted;
+  }
 
   // ── Decorators ──────────────────────────────────────────────────────
-  .nd { color: $rb-code-muted; font-style: italic; }
+  .nd {
+    color: $rb-code-muted;
+    font-style: italic;
+  }
 
   // ── Strings — muted warm brown (subordinate to logic) ───────────────
-  .s, .s1, .s2, .sa, .sb, .sc, .sh, .si, .sx, .sr, .ss,
-  .se, .dl { color: $rb-code-string; }
+  .s,
+  .s1,
+  .s2,
+  .sa,
+  .sb,
+  .sc,
+  .sh,
+  .si,
+  .sx,
+  .sr,
+  .ss,
+  .se,
+  .dl {
+    color: $rb-code-string;
+  }
 
   // ── Numbers + booleans + None — soft accent (the values) ────────────
-  .m, .mi, .mf, .mo, .mh, .il { color: $rb-code-accent; }
-  .kc { color: $rb-code-accent; }   // True / False / None
+  .m,
+  .mi,
+  .mf,
+  .mo,
+  .mh,
+  .il {
+    color: $rb-code-accent;
+  }
+  .kc {
+    color: $rb-code-accent;
+  } // True / False / None
 
   // ── Comments — italic muted ─────────────────────────────────────────
-  .c, .c1, .cm, .cp, .cs, .cd { color: $rb-code-comment; font-style: italic; }
+  .c,
+  .c1,
+  .cm,
+  .cp,
+  .cs,
+  .cd {
+    color: $rb-code-comment;
+    font-style: italic;
+  }
 
   // ── Generic / diff / errors ─────────────────────────────────────────
-  .gd { color: $rb-code-accent; background: transparent; }   // deletion
-  .gi { color: $rb-code-comment; background: transparent; }  // insertion (kept neutral)
-  .gh, .gu { color: $rb-code-ink; font-weight: 600; }
-  .ge { font-style: italic; }
-  .gs { font-weight: 600; }
-  .err { color: $rb-code-accent; background: transparent; }
+  .gd {
+    color: $rb-code-accent;
+    background: transparent;
+  } // deletion
+  .gi {
+    color: $rb-code-comment;
+    background: transparent;
+  } // insertion (kept neutral)
+  .gh,
+  .gu {
+    color: $rb-code-ink;
+    font-weight: 600;
+  }
+  .ge {
+    font-style: italic;
+  }
+  .gs {
+    font-weight: 600;
+  }
+  .err {
+    color: $rb-code-accent;
+    background: transparent;
+  }
 
   // ── Shell / console — prompt + output ───────────────────────────────
-  .gp { color: $rb-code-ink; font-weight: 600; user-select: none; }   // prompt $ / >
-  .go { color: $rb-code-ink; }                                         // output (don't wash out — it's the content)
-  .gt { color: $rb-code-accent; }                                      // traceback
+  .gp {
+    color: $rb-code-ink;
+    font-weight: 600;
+    user-select: none;
+  } // prompt $ / >
+  .go {
+    color: $rb-code-ink;
+  } // output (don't wash out — it's the content)
+  .gt {
+    color: $rb-code-accent;
+  } // traceback
 }
 
 // Dark theme (rb-black background) — same logic, inverted base
 html[data-theme="dark"] .highlight {
-  $rb-code-ink:    #e8e3d6;
-  $rb-code-muted:  #989080;
+  $rb-code-ink: #e8e3d6;
+  $rb-code-muted: #989080;
   $rb-code-string: #c9a988;
   $rb-code-comment: #7a766c;
-  $rb-code-accent:  #e85b3a;
+  $rb-code-accent: #e85b3a;
 
   color: $rb-code-ink;
 
-  .k, .kd, .kn, .kp, .kr, .kt   { color: $rb-code-ink; font-weight: 600; }
-  .ow                            { color: $rb-code-ink; font-weight: 600; }
-  .o, .p { color: $rb-code-ink; }
-  .n, .nv, .nl, .nx { color: $rb-code-ink; }
-  .nf, .nc { color: $rb-code-ink; font-weight: 500; }
-  .nb, .bp, .nn { color: $rb-code-muted; }
-  .nd { color: $rb-code-muted; font-style: italic; }
-  .s, .s1, .s2, .sa, .sb, .sc, .sh, .si, .sx, .sr, .ss,
-  .se, .dl { color: $rb-code-string; }
-  .m, .mi, .mf, .mo, .mh, .il { color: $rb-code-accent; }
-  .kc { color: $rb-code-accent; }
-  .c, .c1, .cm, .cp, .cs, .cd { color: $rb-code-comment; font-style: italic; }
-  .gd { color: $rb-code-accent; }
-  .gi { color: $rb-code-comment; }
-  .gh, .gu { color: $rb-code-ink; font-weight: 600; }
-  .err { color: $rb-code-accent; }
-  .gp { color: $rb-code-ink; font-weight: 600; user-select: none; }
-  .go { color: $rb-code-ink; }
-  .gt { color: $rb-code-accent; }
+  .k,
+  .kd,
+  .kn,
+  .kp,
+  .kr,
+  .kt {
+    color: $rb-code-ink;
+    font-weight: 600;
+  }
+  .ow {
+    color: $rb-code-ink;
+    font-weight: 600;
+  }
+  .o,
+  .p {
+    color: $rb-code-ink;
+  }
+  .n,
+  .nv,
+  .nl,
+  .nx {
+    color: $rb-code-ink;
+  }
+  .nf,
+  .nc {
+    color: $rb-code-ink;
+    font-weight: 500;
+  }
+  .nb,
+  .bp,
+  .nn {
+    color: $rb-code-muted;
+  }
+  .nd {
+    color: $rb-code-muted;
+    font-style: italic;
+  }
+  .s,
+  .s1,
+  .s2,
+  .sa,
+  .sb,
+  .sc,
+  .sh,
+  .si,
+  .sx,
+  .sr,
+  .ss,
+  .se,
+  .dl {
+    color: $rb-code-string;
+  }
+  .m,
+  .mi,
+  .mf,
+  .mo,
+  .mh,
+  .il {
+    color: $rb-code-accent;
+  }
+  .kc {
+    color: $rb-code-accent;
+  }
+  .c,
+  .c1,
+  .cm,
+  .cp,
+  .cs,
+  .cd {
+    color: $rb-code-comment;
+    font-style: italic;
+  }
+  .gd {
+    color: $rb-code-accent;
+  }
+  .gi {
+    color: $rb-code-comment;
+  }
+  .gh,
+  .gu {
+    color: $rb-code-ink;
+    font-weight: 600;
+  }
+  .err {
+    color: $rb-code-accent;
+  }
+  .gp {
+    color: $rb-code-ink;
+    font-weight: 600;
+    user-select: none;
+  }
+  .go {
+    color: $rb-code-ink;
+  }
+  .gt {
+    color: $rb-code-accent;
+  }
 }
 
 // ── Footer (Runbook running footer) ──────────────────────────────────────────
