@@ -10,6 +10,9 @@ layout: default
     <h1 class="rb-home-name">
       {{ page.subtitle | default: site.description }}
     </h1>
+    {% if page.about %}
+      <div class="rb-home-bio">{{ page.about | markdownify }}</div>
+    {% endif %}
     {% if content != '' %}
       <div class="rb-home-bio">{{ content }}</div>
     {% endif %}
@@ -43,16 +46,17 @@ layout: default
     </section>
   {% endif %}
 
-  {% comment %} ── Section 02 · Talks ─────────────────────────────────────── {% endcomment %}
+  {% comment %} ── Section 02 · Talks (latest 3) ──────────────────────────── {% endcomment %}
   {% if site.data.talks %}
+    {% assign latest_talks = site.data.talks | slice: 0, 3 %}
     <section class="rb-home-section">
       <div class="rb-home-section__head">
         <span class="rb-figure rb-figure--accent rb-home-section__num">02</span>
         <span class="rb-home-section__label">Talks</span>
-        <a class="rb-home-section__more" href="https://speakerdeck.com/mfcabrera" target="_blank" rel="noopener">All talks &rarr;</a>
+        <a class="rb-home-section__more" href="{{ '/talks/' | relative_url }}">All talks &rarr;</a>
       </div>
       <div class="rb-home-section__body">
-        {% for talk in site.data.talks %}
+        {% for talk in latest_talks %}
           {% if talk.url %}
             <a class="rb-numrow" href="{{ talk.url }}" target="_blank" rel="noopener">
           {% else %}
@@ -70,20 +74,6 @@ layout: default
             <span class="rb-numrow__meta">{% if talk.url %}Slides &rarr;{% endif %}</span>
           {% if talk.url %}</a>{% else %}</div>{% endif %}
         {% endfor %}
-      </div>
-    </section>
-  {% endif %}
-
-  {% comment %} ── Section 03 · About ─────────────────────────────────────── {% endcomment %}
-  {% if page.about %}
-    <section class="rb-home-section">
-      <div class="rb-home-section__head">
-        <span class="rb-figure rb-figure--accent rb-home-section__num">03</span>
-        <span class="rb-home-section__label">About</span>
-        <a class="rb-home-section__more" href="{{ '/cv/' | relative_url }}">CV &rarr;</a>
-      </div>
-      <div class="rb-home-section__body rb-home-section__body--prose">
-        {{ page.about | markdownify }}
       </div>
     </section>
   {% endif %}
