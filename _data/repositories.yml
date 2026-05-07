@@ -10,6 +10,6 @@ repos:
     url: https://github.com/mfcabrera/hooqu
 
   - name: dotemacs
-    description: My Emacs configuration — built up over a decade of fiddling.
+    description: My Emacs configuration, built up over a decade of fiddling.
     lang: Emacs Lisp
     url: https://github.com/mfcabrera/dotemacs

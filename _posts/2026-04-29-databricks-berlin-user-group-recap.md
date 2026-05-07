@@ -41,13 +41,13 @@ Two of the questions during Q&A are still in my head, because the answers are th
 
 **"Why skills and not just scripts?"** This came up because half of what a skill ends up doing is "run a thing, parse the output, decide what to do next." Which is what scripts do. So why the indirection?
 
-The honest answer is that a script encodes one path. A skill encodes a _capability_ — the description, the inputs it expects, the failure modes it knows about, the tools it composes. When something goes sideways (and at 50 tenants, something is always going sideways), a script gives up at the first unhandled case. A skill negotiates: it tries an alternate path, asks the operator for a confirmation, drops back to a fallback tool. The five-tier scaffolding around the skill is what makes that negotiation actually go somewhere instead of into a loop.
+The honest answer is that a script encodes one path. A skill encodes a _capability_: the description, the inputs it expects, the failure modes it knows about, the tools it composes. When something goes sideways (and at 50 tenants, something is always going sideways), a script gives up at the first unhandled case. A skill negotiates: it tries an alternate path, asks the operator for a confirmation, drops back to a fallback tool. The five-tier scaffolding around the skill is what makes that negotiation actually go somewhere instead of into a loop.
 
 The TL;DR I gave at the meetup: scripts are great when the world is fixed. Skills earn their keep when the world is messy and you want the agent to keep going. (More on this in a follow-up.)
 
 **"MCP server or CLI tool?"** This one I have a strong opinion on. I prefer CLIs.
 
-Two reasons. First, every [MCP](https://modelcontextprotocol.io/) roundtrip is tokens. Tool definitions, schemas, the wrapper boilerplate — it adds up fast on long tasks, and on a tenant onboarding the agent is spending most of its budget on glue, not on actually thinking about your problem. A `python query_databricks.py "..."` call is one tool invocation, one stdout, done. Specifically the [Databricks SQL MCP](https://docs.databricks.com/aws/en/generative-ai/mcp/) is the one we kept reaching for, and the one a small `query_databricks.py` script replaces nicely. Second, CLIs degrade better. When the hosted MCP service has a hiccup mid-flow (which has happened to us in production), the agent that _also_ knows how to invoke the local CLI finishes the job. The one that only knows the MCP gets stuck. So our preference is: build the CLI first, expose it as an MCP later if it earns the convenience tax.
+Two reasons. First, every [MCP](https://modelcontextprotocol.io/) roundtrip is tokens. Tool definitions, schemas, the wrapper boilerplate. It adds up fast on long tasks, and on a tenant onboarding the agent is spending most of its budget on glue, not on actually thinking about your problem. A `python query_databricks.py "..."` call is one tool invocation, one stdout, done. Specifically the [Databricks SQL MCP](https://docs.databricks.com/aws/en/generative-ai/mcp/) is the one we kept reaching for, and the one a small `query_databricks.py` script replaces nicely. Second, CLIs degrade better. When the hosted MCP service has a hiccup mid-flow (which has happened to us in production), the agent that _also_ knows how to invoke the local CLI finishes the job. The one that only knows the MCP gets stuck. So our preference is: build the CLI first, expose it as an MCP later if it earns the convenience tax.
 
 I want to write up the MCP-vs-CLI argument properly, because it cuts against the default advice you'll see, and it has cost-and-reliability evidence behind it. That's on the queue.
 
@@ -71,7 +71,7 @@ If you run a Databricks or AI engineering event in Europe and want a longer vers
 <figure class="rb-figure-embed">
   <iframe
     src="https://speakerdeck.com/player/a1680508de374e3e97deb09810eeb370"
-    title="From Days to Minutes — slides"
+    title="From Days to Minutes - slides"
     allow="fullscreen"
     loading="lazy"
     frameborder="0"

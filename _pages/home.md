@@ -8,7 +8,7 @@ nav: false
 social: true
 
 about: |
-  I'm Miguel Cabrera — Head of AI at [Plato](https://www.platoapp.ai/), a Berlin B2B SaaS building **sales intelligence for distributors and wholesalers**. Built the AI/Data function from zero; now growing it through Series-A prep.
+  I'm Miguel Cabrera. Head of AI at [Plato](https://www.platoapp.ai/), a Berlin B2B SaaS building **sales intelligence for distributors and wholesalers**. Built the AI/Data function from zero; now leading the team.
 
   Previously: Senior Data Scientist at **Shopify**, Senior/Staff DS at **New Yorker**, NLP/IR at **TrustYou**.
 
