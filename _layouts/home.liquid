@@ -1,0 +1,91 @@
+---
+layout: default
+---
+<div class="post rb-home">
+
+  <header class="rb-home-hero">
+    <div class="rb-eyebrow rb-eyebrow--muted">
+      {{ site.first_name }} {{ site.last_name }} · {{ page.location | default: 'Berlin' }}
+    </div>
+    <h1 class="rb-home-name">
+      {{ page.subtitle | default: site.description }}
+    </h1>
+    {% if content != '' %}
+      <div class="rb-home-bio">{{ content }}</div>
+    {% endif %}
+  </header>
+
+  {% comment %} ── Section 01 · Writing ────────────────────────────────────── {% endcomment %}
+  {% assign latest_posts = site.posts | where_exp: "post", "post.redirect == nil" | slice: 0, 5 %}
+  {% if latest_posts.size > 0 %}
+    <section class="rb-home-section">
+      <div class="rb-home-section__head">
+        <span class="rb-figure rb-figure--accent rb-home-section__num">01</span>
+        <span class="rb-home-section__label">Writing</span>
+        <a class="rb-home-section__more" href="{{ '/blog/' | relative_url }}">All posts &rarr;</a>
+      </div>
+      <div class="rb-home-section__body">
+        {% for post in latest_posts %}
+          {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
+          {% assign year = post.date | date: "%Y" %}
+          <a class="rb-numrow" href="{{ post.url | relative_url }}">
+            <span class="rb-numrow__n">{{ year }}</span>
+            <span>
+              <span class="rb-numrow__title">{{ post.title }}</span>
+              {% if post.description %}
+                <span class="rb-numrow__sub">{{ post.description }}</span>
+              {% endif %}
+            </span>
+            <span class="rb-numrow__meta">{{ read_time }} min</span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% comment %} ── Section 02 · Talks ─────────────────────────────────────── {% endcomment %}
+  {% if site.data.talks %}
+    <section class="rb-home-section">
+      <div class="rb-home-section__head">
+        <span class="rb-figure rb-figure--accent rb-home-section__num">02</span>
+        <span class="rb-home-section__label">Talks</span>
+      </div>
+      <div class="rb-home-section__body">
+        {% for talk in site.data.talks %}
+          <a class="rb-numrow"{% if talk.url %} href="{{ talk.url }}" target="_blank" rel="noopener"{% endif %}>
+            <span class="rb-numrow__n">{{ talk.year }}</span>
+            <span>
+              <span class="rb-numrow__title">{{ talk.title }}</span>
+              {% if talk.venue %}
+                <span class="rb-numrow__sub">{{ talk.venue }}</span>
+              {% endif %}
+            </span>
+            <span class="rb-numrow__meta">{{ talk.format | default: '' }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% comment %} ── Section 03 · About ─────────────────────────────────────── {% endcomment %}
+  {% if page.about %}
+    <section class="rb-home-section">
+      <div class="rb-home-section__head">
+        <span class="rb-figure rb-figure--accent rb-home-section__num">03</span>
+        <span class="rb-home-section__label">About</span>
+        <a class="rb-home-section__more" href="{{ '/cv/' | relative_url }}">CV &rarr;</a>
+      </div>
+      <div class="rb-home-section__body rb-home-section__body--prose">
+        {{ page.about | markdownify }}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if page.social %}
+    <footer class="rb-home-social">
+      <div class="rb-eyebrow rb-eyebrow--muted">Find me</div>
+      <div class="contact-icons">{% social_links %}</div>
+    </footer>
+  {% endif %}
+
+</div>

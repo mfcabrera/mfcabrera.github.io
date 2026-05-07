@@ -460,6 +460,104 @@ figure.highlight figcaption,
   }
 }
 
+// ── Home (TOC) ───────────────────────────────────────────────────────────────
+
+.rb-home {
+  &-hero {
+    border-bottom: 1px solid var(--rb-rule-color);
+    padding-bottom: 2.5rem;
+    margin-bottom: 2.5rem;
+
+    .rb-eyebrow { margin-bottom: 1rem; }
+  }
+
+  &-name {
+    font-family: $rb-font-serif;
+    font-weight: 400;
+    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.6rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.4rem 0;
+    max-width: 30ch;
+    color: var(--global-text-color);
+  }
+
+  &-bio {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--global-text-color);
+    max-width: 60ch;
+
+    p { margin-bottom: 0.9em; }
+    p:last-child { margin-bottom: 0; }
+
+    a {
+      color: var(--global-text-color);
+      text-decoration: underline;
+      text-decoration-color: var(--rb-rule-color);
+      &:hover { color: var(--global-theme-color); text-decoration-color: var(--global-theme-color); }
+    }
+  }
+
+  &-section {
+    margin: 3rem 0;
+
+    &__head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--rb-rule-color);
+    }
+
+    &__num {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    &__label {
+      @include rb-mono-chrome($size: 0.78rem, $tracking: 0.2em, $color: var(--global-text-color));
+    }
+
+    &__more {
+      @include rb-mono-chrome($size: 0.7rem, $tracking: 0.18em, $color: var(--global-text-color-light));
+      margin-left: auto;
+      text-decoration: none !important;
+
+      &:hover { color: var(--global-theme-color) !important; }
+    }
+
+    &__body--prose {
+      font-size: 1rem;
+      line-height: 1.65;
+      max-width: 65ch;
+
+      p { margin-bottom: 0.9em; }
+
+      a {
+        color: var(--global-text-color);
+        text-decoration: underline;
+        text-decoration-color: var(--rb-rule-color);
+        &:hover { color: var(--global-theme-color); text-decoration-color: var(--global-theme-color); }
+      }
+    }
+  }
+
+  &-social {
+    border-top: 1px solid var(--rb-rule-color);
+    padding-top: 1.5rem;
+    margin-top: 3rem;
+
+    .rb-eyebrow { margin-bottom: 0.8rem; }
+
+    .contact-icons {
+      a { font-size: 1.4rem; margin-right: 0.7rem; color: var(--global-text-color-light); text-decoration: none; }
+      a:hover { color: var(--global-theme-color); }
+    }
+  }
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {
