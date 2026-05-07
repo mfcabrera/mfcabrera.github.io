@@ -12,6 +12,15 @@ Last week I gave my first technical talk in years at the Databricks Berlin User 
 
 ## The talk
 
+<figure class="rb-figure-img">
+  <img
+    src="{{ '/assets/img/posts/databricks-ug-berlin-2026-04-28.jpg' | relative_url }}"
+    alt="Miguel presenting the &quot;Eight patterns you can steal&quot; takeaway slide at the Databricks Berlin User Group, April 28 2026."
+    loading="lazy"
+  >
+  <figcaption>Databricks UG Berlin · 2026-04-28 · The takeaway slide</figcaption>
+</figure>
+
 The premise: at [Plato](https://www.platoapp.ai/) we ship 25+ ML algorithms across 50+ wholesale-distributor tenants, and we do it without hand-rolling deployments. The plumbing under that is [**Databricks Asset Bundles**](https://docs.databricks.com/aws/en/dev-tools/bundles/) (recently rebranded to **Declarative Automation Bundles**, or DABs) plus a small generator we wrote called `dabgen`, plus a [Claude Code](https://www.claude.com/product/claude-code) [skill](https://www.claude.com/news/skills) that drives the onboarding end-to-end.
 
 Title was "From Days to Minutes: How We Taught an AI to Onboard 50+ Tenants on our AI Features." Slides are [on Speaker Deck](https://speakerdeck.com/mfcabrera/from-days-to-minutes-how-we-taught-an-ai-to-onboard-50-plus-tenants-on-our-ai-features).
@@ -56,3 +65,17 @@ I am going to expand a few of the bits I had to cut from the slides into separat
 4. **Tool-teaching beats prompt-engineering.** When a hosted MCP drops mid-flow, the agent that _also_ knows how to call your fallback Python script will finish the job. The one that just had a great prompt will not.
 
 If you run a Databricks or AI engineering event in Europe and want a longer version of any of this, you can find me on [LinkedIn](https://linkedin.com/in/mfcabrera).
+
+## The slides
+
+<figure class="rb-figure-embed">
+  <iframe
+    src="https://speakerdeck.com/player/a1680508de374e3e97deb09810eeb370"
+    title="From Days to Minutes — slides"
+    allow="fullscreen"
+    loading="lazy"
+    frameborder="0"
+    allowtransparency="true"
+  ></iframe>
+  <figcaption>From Days to Minutes · Databricks UG Berlin · April 2026</figcaption>
+</figure>

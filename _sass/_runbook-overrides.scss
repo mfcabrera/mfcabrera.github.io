@@ -1354,6 +1354,48 @@ html[data-theme="dark"] .highlight {
   }
 }
 
+// ── Figures (photo + caption, slide embeds) ─────────────────────────────────
+//
+// Use:
+//   <figure class="rb-figure-img">
+//     <img src="..." alt="...">
+//     <figcaption>DATABRICKS UG BERLIN · 2026-04-28 · PHOTO BY BOB</figcaption>
+//   </figure>
+//
+//   <figure class="rb-figure-embed">
+//     <iframe src="..." ...></iframe>
+//     <figcaption>SLIDES · FROM DAYS TO MINUTES</figcaption>
+//   </figure>
+
+.rb-figure-img,
+.rb-figure-embed {
+  margin: 2rem 0;
+  padding: 0;
+
+  img,
+  iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rb-rule-color);
+    border-radius: 2px;
+    box-shadow: none;
+  }
+
+  figcaption {
+    @include rb-mono-chrome($size: 0.7rem, $tracking: 0.18em, $color: var(--global-text-color-light));
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid var(--rb-rule-color);
+    text-align: left;
+  }
+}
+
+.rb-figure-embed iframe {
+  aspect-ratio: 710 / 399; // Speaker Deck native ratio
+  height: auto;
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {
