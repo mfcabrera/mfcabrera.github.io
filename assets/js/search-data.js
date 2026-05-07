@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/about/";
           },
-        },{id: "post-data-verification-for-machine-learning-a-review-of-dataframe-validation-libraries",
+        },{id: "post-databricks-berlin-user-group-a-recap-and-a-surprise",
+        
+          title: "Databricks Berlin User Group: A Recap and a Surprise",
+        
+        description: "Notes from my first talk in five years, what surprised me about the room, and what I want to say next.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/databricks-berlin-user-group-recap/";
+          
+        },
+      },{id: "post-data-verification-for-machine-learning-a-review-of-dataframe-validation-libraries",
         
           title: "Data Verification for Machine Learning - A Review of DataFrame Validation Libraries",
         
