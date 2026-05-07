@@ -49,19 +49,26 @@ layout: default
       <div class="rb-home-section__head">
         <span class="rb-figure rb-figure--accent rb-home-section__num">02</span>
         <span class="rb-home-section__label">Talks</span>
+        <a class="rb-home-section__more" href="https://speakerdeck.com/mfcabrera" target="_blank" rel="noopener">All talks &rarr;</a>
       </div>
       <div class="rb-home-section__body">
         {% for talk in site.data.talks %}
-          <a class="rb-numrow"{% if talk.url %} href="{{ talk.url }}" target="_blank" rel="noopener"{% endif %}>
+          {% if talk.url %}
+            <a class="rb-numrow" href="{{ talk.url }}" target="_blank" rel="noopener">
+          {% else %}
+            <div class="rb-numrow">
+          {% endif %}
             <span class="rb-numrow__n">{{ talk.year }}</span>
             <span>
               <span class="rb-numrow__title">{{ talk.title }}</span>
               {% if talk.venue %}
-                <span class="rb-numrow__sub">{{ talk.venue }}</span>
+                <span class="rb-numrow__sub">{{ talk.venue }}{% if talk.format %} · {{ talk.format }}{% endif %}</span>
+              {% elsif talk.format %}
+                <span class="rb-numrow__sub">{{ talk.format }}</span>
               {% endif %}
             </span>
-            <span class="rb-numrow__meta">{{ talk.format | default: '' }}</span>
-          </a>
+            <span class="rb-numrow__meta">{% if talk.url %}Slides &rarr;{% endif %}</span>
+          {% if talk.url %}</a>{% else %}</div>{% endif %}
         {% endfor %}
       </div>
     </section>

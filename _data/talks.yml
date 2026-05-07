@@ -1,5 +1,58 @@
+# Featured talks. New entries go on top.
+# Slides for most live on https://speakerdeck.com/mfcabrera
+
 - year: 2026
-  title: From Days to Minutes — How We Taught an AI to Onboard 50+ Tenants
+  title: "From Days to Minutes: How We Taught an AI to Onboard 50+ Tenants"
   venue: Databricks Berlin User Group
   format: 30 min
-  url:
+  url: https://speakerdeck.com/mfcabrera/from-days-to-minutes-how-we-taught-an-ai-to-onboard-50-plus-tenants-on-our-ai-features
+
+- year: 2019
+  title: Machine Learning for Time Series Forecasting
+  venue: PyData Berlin
+  url: https://speakerdeck.com/mfcabrera/machine-learning-for-time-series-forecasting
+
+- year: 2018
+  title: Data Science in Fashion — Exploring Demand Forecasting
+  venue: PyData Berlin
+  url: https://speakerdeck.com/mfcabrera/data-science-in-fashion-exploring-demand-forecasting
+
+- year: 2017
+  title: Helping Travellers Make Better Hotel Choices 500 Million Times a Month
+  venue: PyData
+  url: https://speakerdeck.com/mfcabrera/helping-travellers-make-better-hotel-choices-500-million-times-a-month
+
+- year: 2016
+  title: Building Data Pipelines with Python
+  venue: PyConDE
+  url: https://speakerdeck.com/mfcabrera/pyconde-2016-building-data-pipelines-with-python
+
+- year: 2016
+  title: Things I Wish I Knew Before Using Python for Data Processing
+  venue: EuroPython
+  url: https://speakerdeck.com/mfcabrera/europython-2016-things-i-wish-i-knew-before-using-python-for-data-processing
+
+- year: 2015
+  title: Processing Hotel Reviews with Python
+  venue: PyData Berlin
+  url: https://speakerdeck.com/mfcabrera/pydata-berlin-2015-processing-hotel-reviews-with-python
+
+- year: 2015
+  title: Things I Wish I Knew Before Starting Using Python for Data Science
+  venue: PyData Berlin Meetup
+  url: https://speakerdeck.com/mfcabrera/pydata-berlin-meetup-nov-2015-some-of-the-things-i-wish-i-knew-before-starting-using-python-for-data-science
+
+- year: 2014
+  title: Python and Life Hacking with Emacs
+  venue:
+  url: https://speakerdeck.com/mfcabrera/python-and-life-hacking-with-emacs
+
+- year: 2014
+  title: Introduction to SVM using Python
+  venue: Munich Datageeks
+  url: https://speakerdeck.com/mfcabrera/munich-datageeks-introduction-to-svm-using-python
+
+- year: 2013
+  title: Dictionary Learning for Music Genre Recognition
+  venue:
+  url: https://speakerdeck.com/mfcabrera/dictionary-learning-for-music-genre-recognition
