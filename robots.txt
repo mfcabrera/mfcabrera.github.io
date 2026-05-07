@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://mfcabrera.github.io/sitemap.xml
+Sitemap: https://mfcabrera.com/sitemap.xml
