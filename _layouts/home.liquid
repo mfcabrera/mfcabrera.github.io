@@ -78,6 +78,31 @@ layout: default
     </section>
   {% endif %}
 
+  {% comment %} ── Section 03 · Code ──────────────────────────────────────── {% endcomment %}
+  {% if site.data.repositories.repos %}
+    <section class="rb-home-section">
+      <div class="rb-home-section__head">
+        <span class="rb-figure rb-figure--accent rb-home-section__num">03</span>
+        <span class="rb-home-section__label">Code</span>
+        <a class="rb-home-section__more" href="https://github.com/{{ site.data.repositories.github_user }}" target="_blank" rel="noopener">All repositories &rarr;</a>
+      </div>
+      <div class="rb-home-section__body">
+        {% for repo in site.data.repositories.repos %}
+          <a class="rb-numrow rb-numrow--repo" href="{{ repo.url }}" target="_blank" rel="noopener">
+            <span class="rb-numrow__n rb-numrow__n--mono">/{{ repo.name }}</span>
+            <span>
+              <span class="rb-numrow__title">{{ repo.name }}</span>
+              {% if repo.description %}
+                <span class="rb-numrow__sub">{{ repo.description }}</span>
+              {% endif %}
+            </span>
+            <span class="rb-numrow__meta">{{ repo.lang }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
   {% if page.social %}
     <footer class="rb-home-social">
       <div class="rb-eyebrow rb-eyebrow--muted">Find me</div>

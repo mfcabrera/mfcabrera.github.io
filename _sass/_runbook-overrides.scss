@@ -294,6 +294,20 @@ a.rb-numrow:hover {
   .rb-numrow__title { color: var(--global-theme-color); }
 }
 
+// Repo variant: mono name slug instead of italic-serif year
+.rb-numrow--repo {
+  grid-template-columns: 9rem 1fr auto;
+
+  .rb-numrow__n--mono {
+    font-family: $rb-font-mono;
+    font-style: normal;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: var(--global-text-color);
+    line-height: 1.4;
+  }
+}
+
 // ── Code listing caption ──────────────────────────────────────────────────────
 
 figure.highlight figcaption,
@@ -594,17 +608,30 @@ figure.highlight figcaption,
     }
   }
 
-  // Year badge → italic-serif figure
+  // Year badge → italic-serif figure (override bootstrap .badge AND
+  // _base.scss .cv .list-group-item .badge with same specificity).
+  .list-group-item .badge,
   .badge {
-    @include rb-figure;
     background: transparent !important;
+    background-color: transparent !important;
     color: var(--global-theme-color) !important;
-    font-size: 1.05rem !important;
+    font-family: #{$rb-font-serif} !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
+    font-variant-numeric: tabular-nums;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
     text-transform: none !important;
-    padding: 0 !important;
     text-align: left !important;
+    padding: 0 !important;
     min-width: 0 !important;
-    display: block;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: inline-block !important;
+    white-space: normal;
+    letter-spacing: 0;
   }
 
   // Drop FA icons in time-table
@@ -786,6 +813,103 @@ figure.highlight figcaption,
     .repo-name { font-family: $rb-font-serif; font-weight: 500; font-size: 1.05rem; color: var(--global-text-color); }
     .repo-description { color: var(--global-text-color-light); font-size: 0.95rem; }
     .repo-handle { @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color-light)); }
+  }
+}
+
+// ── About / narrative pages ──────────────────────────────────────────────────
+
+.rb-prose {
+  max-width: 68ch;
+  font-size: 1.05rem;
+  line-height: 1.7;
+
+  p { margin: 0 0 1.1em 0; }
+
+  h2 {
+    font-family: $rb-font-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    margin: 2.4em 0 0.6em 0;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid var(--rb-rule-color);
+  }
+
+  h3 {
+    font-family: $rb-font-sans;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 1.6em 0 0.5em 0;
+    color: var(--global-text-color);
+  }
+
+  ul {
+    margin: 0.6em 0 1.2em 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      position: relative;
+      padding-left: 1.2em;
+      margin-bottom: 0.45em;
+
+      &::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--global-text-color-light);
+      }
+    }
+  }
+
+  a {
+    color: var(--global-text-color);
+    text-decoration: underline;
+    text-decoration-color: var(--rb-rule-color);
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--global-theme-color);
+      text-decoration-color: var(--global-theme-color);
+    }
+  }
+
+  em { color: var(--global-text-color-light); }
+}
+
+.rb-quickfacts {
+  border-top: 1px solid var(--rb-rule-color);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  max-width: 68ch;
+
+  .rb-eyebrow { display: block; margin-bottom: 1rem; }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    column-gap: 18px;
+    row-gap: 0.4rem;
+    margin: 0;
+
+    dt {
+      @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color-light));
+      padding-top: 0.2em;
+    }
+    dd {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--global-text-color);
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: var(--rb-rule-color);
+        &:hover { color: var(--global-theme-color); text-decoration-color: var(--global-theme-color); }
+      }
+    }
   }
 }
 

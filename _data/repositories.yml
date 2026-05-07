@@ -1,8 +1,15 @@
-github_users:
-  - mfcabrera
+# Curated repositories shown in the "03 Code" section of the homepage.
+# Add new entries on top. Each row renders as an rb-numrow on the home page.
 
-repo_description_lines_max: 2
+github_user: mfcabrera
 
-github_repos:
-  - mfcabrera/hooqu
-  - mfcabrera/dotemacs
+repos:
+  - name: hooqu
+    description: A PyDeequ-style data validation library for Pandas DataFrames.
+    lang: Python
+    url: https://github.com/mfcabrera/hooqu
+
+  - name: dotemacs
+    description: My Emacs configuration — built up over a decade of fiddling.
+    lang: Emacs Lisp
+    url: https://github.com/mfcabrera/dotemacs
