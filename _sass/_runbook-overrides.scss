@@ -558,6 +558,237 @@ figure.highlight figcaption,
   }
 }
 
+// ── CV (re-skin al-folio's bootstrap layout) ────────────────────────────────
+
+.cv {
+  // Drop al-folio's card chrome
+  .card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 2.5rem 0 !important;
+  }
+
+  .card-title {
+    @include rb-mono-chrome($size: 0.78rem, $tracking: 0.2em, $color: var(--global-text-color));
+    font-weight: 500 !important;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1rem !important;
+    border-bottom: 1px solid var(--rb-rule-color);
+  }
+
+  // Time-table rows → rb-numrow style
+  .list-group-flush {
+    border: none !important;
+    background: transparent;
+    padding: 0;
+
+    > li.list-group-item {
+      background: transparent !important;
+      border: none !important;
+      border-bottom: 1px solid var(--rb-rule-color) !important;
+      padding: 14px 0 !important;
+
+      &:last-child { border-bottom: none !important; }
+    }
+  }
+
+  // Year badge → italic-serif figure
+  .badge {
+    @include rb-figure;
+    background: transparent !important;
+    color: var(--global-theme-color) !important;
+    font-size: 1.05rem !important;
+    text-transform: none !important;
+    padding: 0 !important;
+    text-align: left !important;
+    min-width: 0 !important;
+    display: block;
+  }
+
+  // Drop FA icons in time-table
+  .table-cv .iconlocation,
+  .table-cv .iconinstitution,
+  .table-cv .icondepartment {
+    display: none !important;
+  }
+
+  .table-cv {
+    width: 100%;
+    border: none;
+
+    td { border: none; padding: 0; background: transparent !important; }
+  }
+
+  // Title (role)
+  .title {
+    font-family: $rb-font-serif !important;
+    font-weight: 500 !important;
+    font-size: 1.125rem !important;
+    color: var(--global-text-color) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+
+  // Institution / department
+  .institution {
+    color: var(--global-text-color-light);
+    font-size: 0.95rem;
+    padding: 2px 0 !important;
+    margin: 0 !important;
+
+    td.institution { font-weight: 400; }
+  }
+  .department { font-style: italic; font-size: 0.9rem; }
+
+  // Description bullets
+  ul.items {
+    margin: 0.6rem 0 0 1rem;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      position: relative;
+      padding-left: 0.9rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--global-text-color);
+
+      &::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--global-text-color-light);
+      }
+    }
+
+    .subitems {
+      margin: 0.3rem 0 0.5rem 0.6rem;
+      padding: 0;
+      list-style: none;
+
+      > li {
+        font-size: 0.9rem;
+        padding-left: 0.9rem;
+        position: relative;
+        color: var(--global-text-color-light);
+        &::before { content: "·"; position: absolute; left: 0; }
+      }
+    }
+
+    .item-title {
+      font-weight: 500;
+      color: var(--global-text-color);
+    }
+  }
+
+  // Map (key/value rows): General Information block
+  table.table-cv {
+    width: 100%;
+    margin: 0;
+
+    tr { border-bottom: 1px solid var(--rb-rule-color); }
+    tr:last-child { border-bottom: none; }
+
+    td {
+      padding: 8px 12px 8px 0 !important;
+      vertical-align: top;
+    }
+    td.font-weight-bold {
+      @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color-light));
+      width: 12rem;
+      b { font-weight: 500; }
+    }
+    td.text {
+      font-size: 1rem;
+      color: var(--global-text-color);
+    }
+  }
+
+  // Link buttons (CV download / nested links) → quiet text links
+  .btncv {
+    background: transparent !important;
+    border: 1px solid var(--rb-rule-color) !important;
+    border-radius: 2px !important;
+    color: var(--global-text-color) !important;
+    @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color));
+    padding: 4px 10px !important;
+    text-decoration: none !important;
+    margin-right: 6px;
+    display: inline-block;
+    line-height: 1.4 !important;
+
+    &:hover {
+      border-color: var(--global-theme-color) !important;
+      color: var(--global-theme-color) !important;
+    }
+  }
+
+  // Layout: replace bootstrap row with grid
+  .list-group-item .row {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    column-gap: 18px;
+    margin: 0;
+
+    > [class*="col-"] {
+      padding: 0;
+      margin: 0;
+      max-width: none;
+      flex: none;
+      width: auto;
+    }
+  }
+}
+
+// CV page header
+.post .post-header .post-title .fa-file-pdf {
+  display: none;
+}
+
+// ── Repositories (re-skin) ───────────────────────────────────────────────────
+
+.repositories {
+  display: block !important;
+  margin: 1.5rem 0 0 0;
+
+  .row { display: block !important; margin: 0; }
+
+  // GitHub readme-stats / trophy cards: shrink and demote shadows
+  img {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 2px;
+    margin: 0.4rem 0;
+    max-width: 100%;
+  }
+
+  // The repo card al-folio renders (repository/repo.liquid produces a hoverable card)
+  .repo {
+    background: transparent !important;
+    border: 1px solid var(--rb-rule-color) !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    padding: 14px 16px !important;
+    margin: 0 0 0.6rem 0 !important;
+    width: 100% !important;
+    transition: border-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--global-theme-color) !important;
+      transform: none !important;
+    }
+
+    .repo-name { font-family: $rb-font-serif; font-weight: 500; font-size: 1.05rem; color: var(--global-text-color); }
+    .repo-description { color: var(--global-text-color-light); font-size: 0.95rem; }
+    .repo-handle { @include rb-mono-chrome($size: 0.7rem, $tracking: 0.14em, $color: var(--global-text-color-light)); }
+  }
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {
