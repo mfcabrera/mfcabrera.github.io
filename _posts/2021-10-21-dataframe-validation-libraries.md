@@ -4,6 +4,7 @@ title: Data Verification for Machine Learning - A Review of DataFrame Validation
 date: 2021-10-21 07:27:47
 tags: data python pandas spark dataqa machine_learning data_quality great_expectations pandera deequ data_validation ml_pipelines data_engineering
 categories: pydata
+featured: true
 description: A comparison of data validation libraries for Pandas and Spark DataFrames
 excerpt: A comprehensive review of data validation libraries including Great Expectations, Pandera, and PyDeequ, comparing their features for ensuring data quality in machine learning pipelines.
 ---
