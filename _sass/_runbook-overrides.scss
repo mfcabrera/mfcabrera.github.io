@@ -913,6 +913,21 @@ figure.highlight figcaption,
   }
 }
 
+// ── Giscus comments ──────────────────────────────────────────────────────────
+
+#giscus_thread {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rb-rule-color);
+
+  &::before {
+    content: "Comments";
+    @include rb-mono-chrome($size: 0.78rem, $tracking: 0.2em, $color: var(--global-text-color));
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {

@@ -13,11 +13,11 @@ nav_order: 4
 
 <div class="rb-prose" markdown="1">
 
-I'm a data and AI engineer based in **Berlin**. Colombian-German, two languages at home plus a working stack of German on top of that. I've been building data, ML, and AI systems for 17+ years — from Java enterprise integrations in Medellín, to an MSc thesis on word2vec for German document retrieval at TU Munich, to NLP pipelines over hotel reviews, to demand forecasting for fast fashion, to product analytics at a publicly-traded e‑commerce platform, and now to LLM-driven sales intelligence at a Series-A startup.
+I'm a data and AI engineer based in **Berlin**. I've been building data, ML, and AI systems for 17+ years — from Java enterprise integrations in Medellín, to an MSc thesis on word2vec for German document retrieval at TU Munich, to NLP pipelines over hotel reviews, to demand forecasting for fast fashion, to product analytics at a publicly-traded e‑commerce platform, and now to LLM-driven sales intelligence at a Series-A startup.
 
 I'm currently **Head of AI at [Plato](https://www.platoapp.ai/)** — a Berlin B2B SaaS building **sales intelligence for distributors and wholesalers**. Our customers are wholesale companies with thousands of sales reps making customer visits every week; our job is to turn their messy enterprise data into the three or four things a sales rep actually needs before walking into a meeting. I joined when the AI/Data function was zero people, and I've grown it into a 5-person team across **Sales Insights**, **Document Processing** (RAG over genuinely awful B2B documents), and **Search**. Day-to-day I'm part architect, part hiring manager, part hands-on builder, part company-internal storyteller — most weeks I'm doing all four.
 
-Before Plato I was a **Senior Data Scientist at [Shopify](https://www.shopify.com/)** working on product analytics and predictive models on the merchant platform; before that **Senior/Staff Data Scientist at New Yorker**, where I led a small multidisciplinary team on demand forecasting and inventory optimization for a European fast-fashion retailer; and before that **Senior Engineer / Tech Lead at TrustYou** in Munich, designing NLP and information-retrieval pipelines that extracted structured signals from millions of hotel reviews. My first production ML role was at **Gini** (document classification with word vectors and LibSVM, back when that was the leading edge). Before any of that, I was a Java enterprise software engineer in Colombia at Accenture and Seguros Sura.
+Before Plato I was a **Senior Data Scientist at [Shopify](https://www.shopify.com/)** working on product analytics and predictive models on the merchant platform; before that **Senior/Staff Data Scientist at New Yorker**, where I led a small multidisciplinary team on demand forecasting and inventory optimization for a European fast-fashion retailer; and before that **Senior Engineer / Tech Lead at TrustYou** in Munich, designing NLP and information-retrieval pipelines that extracted structured signals from millions of hotel reviews. My first production ML role was at **Gini** — document classification with word vectors and LibSVM, back when that was the leading edge.
 
 Education: BEng Systems & Informatics from **Universidad Nacional de Colombia (Medellín)**, MSc Informatics from **TU Munich**, plus the **CDTM Honours Master in Technology Management** (joint TUM/LMU).
 
@@ -55,12 +55,13 @@ I've spent a fair amount of time in the European Python and data community. I fo
 
 ## Talk to me
 
-I'm always happy to swap notes on data engineering, production ML, agentic systems, or what it's like to build an AI team from zero inside a B2B SaaS. The fastest ways to reach me:
+I'm always happy to swap notes on data engineering, production ML, agentic systems, or what it's like to build an AI team from zero inside a B2B SaaS. Easiest places to reach me:
 
-- **Email**: <a href="mailto:miguel.cabrera@platoapp.ai">miguel.cabrera@platoapp.ai</a> *(work)* · <a href="mailto:mfcabrera@gmail.com">mfcabrera@gmail.com</a> *(personal)*
 - **LinkedIn**: [linkedin.com/in/mfcabrera](https://linkedin.com/in/mfcabrera)
 - **GitHub**: [github.com/mfcabrera](https://github.com/mfcabrera)
 - **Twitter / X**: [@mfcabrera](https://twitter.com/mfcabrera)
+
+DM me on any of those and I'll happily share my email if we want to take the conversation off-platform.
 
 </div>
 
@@ -68,8 +69,7 @@ I'm always happy to swap notes on data engineering, production ML, agentic syste
   <div class="rb-eyebrow rb-eyebrow--muted">Quick facts</div>
   <dl class="rb-quickfacts__list">
     <dt>Based in</dt><dd>Berlin, Germany</dd>
-    <dt>From</dt><dd>Medellín, Colombia</dd>
-    <dt>Languages</dt><dd>Spanish (native), English, German</dd>
+    <dt>Languages</dt><dd>Spanish, English, German</dd>
     <dt>Education</dt><dd>MSc Informatics, TU Munich · CDTM Honours, Tech Management</dd>
     <dt>Currently</dt><dd>Head of AI, <a href="https://www.platoapp.ai/">Plato</a></dd>
     <dt>Previously</dt><dd>Shopify, New Yorker, TrustYou, Gini</dd>
