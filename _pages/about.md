@@ -13,7 +13,7 @@ nav_order: 4
 
 <div class="rb-prose" markdown="1">
 
-I'm a data and AI engineer based in **Berlin**. I've been building data, ML, and AI systems for 17+ years — from Java enterprise integrations in Medellín, to an MSc thesis on word2vec for German document retrieval at TU Munich, to NLP pipelines over hotel reviews, to demand forecasting for fast fashion, to product analytics at a publicly-traded e‑commerce platform, and now to LLM-driven sales intelligence at a Series-A startup.
+I'm a data and AI engineer based in **Berlin**. I've spent my career building data, ML, and AI systems — from an MSc thesis on word2vec for German document retrieval at TU Munich, to NLP pipelines over hotel reviews, to demand forecasting for fast fashion, to product analytics at a publicly-traded e‑commerce platform, and now to LLM-driven sales intelligence at a Series-A startup.
 
 I'm currently **Head of AI at [Plato](https://www.platoapp.ai/)** — a Berlin B2B SaaS building **sales intelligence for distributors and wholesalers**. Our customers are wholesale companies with thousands of sales reps making customer visits every week; our job is to turn their messy enterprise data into the three or four things a sales rep actually needs before walking into a meeting. I joined when the AI/Data function was zero people, and I've grown it into a 5-person team across **Sales Insights**, **Document Processing** (RAG over genuinely awful B2B documents), and **Search**. Day-to-day I'm part architect, part hiring manager, part hands-on builder, part company-internal storyteller — most weeks I'm doing all four.
 
