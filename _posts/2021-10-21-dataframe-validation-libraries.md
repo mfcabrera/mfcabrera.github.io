@@ -43,16 +43,16 @@ Extracted from Schelter et al. (2018):
 
 - **Consistency:** The degree to which a set of semantic rules are violated.
   - Valid range of values (e.g. sizes `{S, M, L}`)
-  - There might be *intra-relation constraint*, e.g. if the category is "shoes" then the sizes should be in the range 30-50.
-  - *Inter-relation* constraints may involve multiple tables and columns. `product_id` may only contain entries from the `product` table.
+  - There might be _intra-relation constraint_, e.g. if the category is "shoes" then the sizes should be in the range 30-50.
+  - _Inter-relation_ constraints may involve multiple tables and columns. `product_id` may only contain entries from the `product` table.
 
 - **Accuracy:** The correctness of the data and can be measured in two ways, semantic and syntactic.
   - **Syntactic:** Compares the representation of a value with a corresponding definition domain.
   - **Semantic:** Compares a value with its real world representation.
 
-**Example**: *blue* is a syntactically valid value for the column *color* (even if a product is of color red). *XL* would neither semantically nor syntactically accurate.
+**Example**: _blue_ is a syntactically valid value for the column _color_ (even if a product is of color red). _XL_ would neither semantically nor syntactically accurate.
 
-Most of the data quality libraries I am going to explore focus on the **extension dimension**. This is particularly important when the data ingested comes from semi-structured or non-curated sources. On the *intension* of the data is where the richest set of checks can be done (i.e. checking the schema would only verify if a field is of a certain type but not some additional logical like that what are the valid values for a string field).
+Most of the data quality libraries I am going to explore focus on the **extension dimension**. This is particularly important when the data ingested comes from semi-structured or non-curated sources. On the _intension_ of the data is where the richest set of checks can be done (i.e. checking the schema would only verify if a field is of a certain type but not some additional logical like that what are the valid values for a string field).
 
 ## Libraries
 
@@ -80,13 +80,13 @@ df = pd.DataFrame(
 )
 ```
 
-| id | productName | description | priority | numViews |
-|----|-------------|-------------|----------|----------|
-| 1  | Thingy A    | awesome thing. | high | 0 |
-| 2  | Thingy B    | available at http://thingb.com | None | 0 |
-| 3  | None        | None        | low      | 5 |
-| 4  | Thingy D    | checkout https://thingd.ca | low | 10 |
-| 5  | Thingy E    | None        | high     | 12 |
+| id  | productName | description                    | priority | numViews |
+| --- | ----------- | ------------------------------ | -------- | -------- |
+| 1   | Thingy A    | awesome thing.                 | high     | 0        |
+| 2   | Thingy B    | available at http://thingb.com | None     | 0        |
+| 3   | None        | None                           | low      | 5        |
+| 4   | Thingy D    | checkout https://thingd.ca     | low      | 10       |
+| 5   | Thingy E    | None                           | high     | 12       |
 
 Things that I will check on this toy data:
 
@@ -148,7 +148,7 @@ If run interactively in a Notebook, for each expectation we get a json represent
 }
 ```
 
-However this is not the optimal way to use GE. The documentation states that is better to properly configure the datasets and generate a standard directory structure. This is done through a *Data Context* and requires some scaffolding and generating some files using the command line:
+However this is not the optimal way to use GE. The documentation states that is better to properly configure the datasets and generate a standard directory structure. This is done through a _Data Context_ and requires some scaffolding and generating some files using the command line:
 
 ```console
 [miguelc@machine]$ great_expectations --v3-api init
@@ -301,7 +301,7 @@ Given that this is Python library is relatively easy to integrate into any exist
 
 Last but not least, let us talk about Deequ. Deequ a data checking library written in Scala targeted towards Spark/PySpark dataframes and thus aims to check large datasets making use of Spark optimization to run in a performant manner. PyDeequ, as the name implies, is a Python wrapper offering the same API for pySpark.
 
-The idea behind deequ is to create "*unit tests for data*", to do that, Deequ calculates `Metrics` through `Analyzers`, and assertions are verified based on that metric. A `Check` is a set of assertions to be checked. One interesting feature of (Py)Deequ is that it allows comparing metrics across different runs, allowing to perform assertions on changes on the data (e.g. an unexpected jump in the number of rows of a dataframe).
+The idea behind deequ is to create "_unit tests for data_", to do that, Deequ calculates `Metrics` through `Analyzers`, and assertions are verified based on that metric. A `Check` is a set of assertions to be checked. One interesting feature of (Py)Deequ is that it allows comparing metrics across different runs, allowing to perform assertions on changes on the data (e.g. an unexpected jump in the number of rows of a dataframe).
 
 ```python
 from pydeequ.checks import Check
@@ -371,19 +371,19 @@ However, due to personal constraints, I haven't been able to maintain it, but it
 
 Let's finish with a table summarizing the features of the different libraries:
 
-| Feature | GreatExpectations | Pandera | PyDeequ |
-|---------|-------------------|---------|---------|
-| Checks Extension dimension (Values) | ✓ | ✓ | ✓ |
-| Checks the intension dimension (Schema) | ✗ | ✓ | ✗ |
-| Pandas support¹ | ✓ | ✓ | ✗ |
-| Spark support | ✓ | ✗ | ✓ |
-| Multiple data sources (Database loaders, etc.) | ✓ | ✗ | ✗ |
-| Data Profiling | ✓ | ✗ | ✓ |
-| Constraint/Check Suggestion | ✓ | ✗ | ✓ |
-| Hypothesis Testing | ✗ | ✓ | ✗ |
-| Incremental computation of the checks | ✗ | ✗ | ✓ |
-| Simple Anomaly Detection | ✓ | ✗ | ✓ |
-| Complex Anomaly Detection² | ✗ | ✗ | ✓ |
+| Feature                                        | GreatExpectations | Pandera | PyDeequ |
+| ---------------------------------------------- | ----------------- | ------- | ------- |
+| Checks Extension dimension (Values)            | ✓                 | ✓       | ✓       |
+| Checks the intension dimension (Schema)        | ✗                 | ✓       | ✗       |
+| Pandas support¹                                | ✓                 | ✓       | ✗       |
+| Spark support                                  | ✓                 | ✗       | ✓       |
+| Multiple data sources (Database loaders, etc.) | ✓                 | ✗       | ✗       |
+| Data Profiling                                 | ✓                 | ✗       | ✓       |
+| Constraint/Check Suggestion                    | ✓                 | ✗       | ✓       |
+| Hypothesis Testing                             | ✗                 | ✓       | ✗       |
+| Incremental computation of the checks          | ✗                 | ✗       | ✓       |
+| Simple Anomaly Detection                       | ✓                 | ✗       | ✓       |
+| Complex Anomaly Detection²                     | ✗                 | ✗       | ✓       |
 
 1. Hooqu offers a PyDeequ-like API for Pandas dataframes.
 2. Using running averages and standard deviation of incremental computation.

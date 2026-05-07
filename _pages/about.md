@@ -41,7 +41,7 @@ Things I've come to believe after a decade and a half of doing this:
 
 ## Now
 
-*(Updated {{ "now" | date: "%B %Y" }})*
+_(Updated {{ "now" | date: "%B %Y" }})_
 
 - Building AI tooling for sales reps at Plato. Recently: a multi-tenant onboarding pipeline that took us from days of manual config per customer down to about 30 minutes — [a talk about it](/talks/) at the **Databricks Berlin User Group** in April 2026.
 - Growing the AI/Data team through Plato's Series-A prep — currently five reports, hiring two more.

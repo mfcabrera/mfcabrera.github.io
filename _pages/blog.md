@@ -23,26 +23,27 @@ pagination:
     <h1 class="post-title">{{ site.blog_description | default: 'Notes on data, machine learning, and software.' }}</h1>
   </header>
 
-  {% assign featured_posts = site.posts | where: "featured", "true" %}
-  {% if featured_posts.size > 0 %}
-    <section class="rb-archive-featured">
-      <div class="rb-eyebrow">Featured</div>
-      {% for post in featured_posts %}
-        {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-        {% assign year = post.date | date: "%Y" %}
-        <a class="rb-numrow" href="{{ post.url | relative_url }}">
-          <span class="rb-numrow__n">{{ year }}</span>
-          <span>
-            <span class="rb-numrow__title">{{ post.title }}</span>
-            {% if post.description %}
-              <span class="rb-numrow__sub">{{ post.description }}</span>
-            {% endif %}
-          </span>
-          <span class="rb-numrow__meta">{{ read_time }} min</span>
-        </a>
-      {% endfor %}
-    </section>
-  {% endif %}
+{% assign featured_posts = site.posts | where: "featured", "true" %}
+{% if featured_posts.size > 0 %}
+
+<section class="rb-archive-featured">
+<div class="rb-eyebrow">Featured</div>
+{% for post in featured_posts %}
+{% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
+{% assign year = post.date | date: "%Y" %}
+<a class="rb-numrow" href="{{ post.url | relative_url }}">
+<span class="rb-numrow__n">{{ year }}</span>
+<span>
+<span class="rb-numrow__title">{{ post.title }}</span>
+{% if post.description %}
+<span class="rb-numrow__sub">{{ post.description }}</span>
+{% endif %}
+</span>
+<span class="rb-numrow__meta">{{ read_time }} min</span>
+</a>
+{% endfor %}
+</section>
+{% endif %}
 
   <section class="rb-archive-list">
     <div class="rb-eyebrow">All posts</div>
@@ -83,10 +84,11 @@ pagination:
         <span class="rb-numrow__meta">{{ read_time }} min</span>
       </a>
     {% endfor %}
+
   </section>
 
-  {% if page.pagination.enabled %}
-    {% include pagination.liquid %}
-  {% endif %}
+{% if page.pagination.enabled %}
+{% include pagination.liquid %}
+{% endif %}
 
 </div>

@@ -36,8 +36,12 @@ layout: default
         {% for category in page.categories %}
           {% if url_beginning == '/blog/' %}
             <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
-          {% else %}{{ category }}{% endif %}
-          {% unless forloop.last %}<span class="rb-post-meta__sep">·</span>{% endunless %}
+          {% else -%}
+            {{- category -}}
+          {%- endif %}
+          {% unless forloop.last -%}
+            <span class="rb-post-meta__sep">·</span>
+          {%- endunless %}
         {% endfor %}
       {% endif %}
     </p>
@@ -46,7 +50,9 @@ layout: default
         {% for tag in page.tags %}
           {% if url_beginning == '/blog/' %}
             <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
-          {% else %}<span>{{ tag }}</span>{% endif %}
+          {% else -%}
+            <span>{{ tag }}</span>
+          {%- endif %}
         {% endfor %}
       </p>
     {% endif %}

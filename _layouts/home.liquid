@@ -2,10 +2,10 @@
 layout: default
 ---
 <div class="post rb-home">
-
   <header class="rb-home-hero">
     <div class="rb-eyebrow rb-eyebrow--muted">
-      {{ site.first_name }} {{ site.last_name }} · {{ page.location | default: 'Berlin' }}
+      {{ site.first_name }}
+      {{ site.last_name }} · {{ page.location | default: 'Berlin' }}
     </div>
     <h1 class="rb-home-name">
       {{ page.subtitle | default: site.description }}
@@ -34,7 +34,7 @@ layout: default
           {% else %}
             {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
           {% endif %}
-          {% assign year = post.date | date: "%Y" %}
+          {% assign year = post.date | date: '%Y' %}
 
           {% if post.redirect == blank %}
             {% assign post_url = post.url | relative_url %}
@@ -47,7 +47,13 @@ layout: default
             {% assign post_target = '' %}
           {% endif %}
 
-          <a class="rb-numrow" href="{{ post_url }}"{% if post_target == '_blank' %} target="_blank" rel="noopener"{% endif %}>
+          <a
+            class="rb-numrow"
+            href="{{ post_url }}"
+            {% if post_target == '_blank' %}
+              target="_blank" rel="noopener"
+            {% endif %}
+          >
             <span class="rb-numrow__n">{{ year }}</span>
             <span>
               <span class="rb-numrow__title">{{ post.title }}</span>
@@ -56,7 +62,8 @@ layout: default
               {% endif %}
             </span>
             <span class="rb-numrow__meta">
-              {% if post.external_source %}{{ post.external_source }} · {% endif %}{{ read_time }} min
+              {% if post.external_source %}{{ post.external_source }} · {% endif -%}
+              {{- read_time }} min
             </span>
           </a>
         {% endfor %}
@@ -80,16 +87,21 @@ layout: default
           {% else %}
             <div class="rb-numrow">
           {% endif %}
-            <span class="rb-numrow__n">{{ talk.year }}</span>
-            <span>
-              <span class="rb-numrow__title">{{ talk.title }}</span>
-              {% if talk.venue %}
-                <span class="rb-numrow__sub">{{ talk.venue }}{% if talk.format %} · {{ talk.format }}{% endif %}</span>
-              {% elsif talk.format %}
-                <span class="rb-numrow__sub">{{ talk.format }}</span>
-              {% endif %}
-            </span>
-            <span class="rb-numrow__meta">{% if talk.url %}Slides &rarr;{% endif %}</span>
+          <span class="rb-numrow__n">{{ talk.year }}</span>
+          <span>
+            <span class="rb-numrow__title">{{ talk.title }}</span>
+            {% if talk.venue %}
+              <span class="rb-numrow__sub">
+                {{- talk.venue -}}
+                {%- if talk.format %} · {{ talk.format }}{% endif -%}
+              </span>
+            {% elsif talk.format %}
+              <span class="rb-numrow__sub">{{ talk.format }}</span>
+            {% endif %}
+          </span>
+          <span class="rb-numrow__meta">
+            {%- if talk.url %}Slides &rarr;{% endif -%}
+          </span>
           {% if talk.url %}</a>{% else %}</div>{% endif %}
         {% endfor %}
       </div>
@@ -102,7 +114,9 @@ layout: default
       <div class="rb-home-section__head">
         <span class="rb-figure rb-figure--accent rb-home-section__num">03</span>
         <span class="rb-home-section__label">Code</span>
-        <a class="rb-home-section__more" href="https://github.com/{{ site.data.repositories.github_user }}" target="_blank" rel="noopener">All repositories &rarr;</a>
+        <a class="rb-home-section__more" href="https://github.com/{{ site.data.repositories.github_user }}" target="_blank" rel="noopener"
+          >All repositories &rarr;</a
+        >
       </div>
       <div class="rb-home-section__body">
         {% for repo in site.data.repositories.repos %}
@@ -127,5 +141,4 @@ layout: default
       <div class="contact-icons">{% social_links %}</div>
     </footer>
   {% endif %}
-
 </div>

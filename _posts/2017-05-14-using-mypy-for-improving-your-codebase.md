@@ -59,7 +59,7 @@ In order to understand this code I have to answer the following questions:
 These two issues could be fixed with a proper _docstring_, however comments sometimes don't contain all the information required, don't include the type of the parameters being passed or can be easily inconsistent as the code might have been changed but the comment not updated.
 
 If I want to understand the code I will have to look for its usage, maybe _grepping_ through the code for something called
-`related_cats` or  `sentiment`. If you have a large  codebase, you might even find many classes implementing the same method name.
+`related_cats` or `sentiment`. If you have a large codebase, you might even find many classes implementing the same method name.
 
 I have two choices when I need to modify existing code like this. I can either hack my way around, modifying it enough to make it do what I want,
 or I can look for a way to make this code better (i.e. the [The Boy Scout Rule](http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule)). Besides adding the needed documentation, it would be cool to have a way to specify the types that could be potentially used by a static linter.
@@ -86,14 +86,14 @@ def get_hotel_type_snippets(self, hotel_type_id, cat_set):
     # (...) as before
 ```
 
-As you might guess,  `(str, Category)` are the types of the method parameters. What follows  `->` is the return type, in this example, a list
+As you might guess, `(str, Category)` are the types of the method parameters. What follows `->` is the return type, in this example, a list
 of dictionaries from `str` to `Any`. `Any` is a catch all-type. It helps when you don't know they type (in this case, i would have had to read the code further, and I was too lazy) or when the function can return _literally_ any type.
 
 Some notes from the code above:
 
-- You might have noticed the  `from typing import Any, ...`, the typing library brings the required types into Python 2.7, even when used only as comments. So yeah, you will need to add it to your `requirements.txt`.
+- You might have noticed the `from typing import Any, ...`, the typing library brings the required types into Python 2.7, even when used only as comments. So yeah, you will need to add it to your `requirements.txt`.
 - You also noticed I had to import _explicitly_ `CategorySet` from the `category` model (even if I used it as a comment). I find that good as I am stating there's a relationship or dependency between those modules.
-- Finally, you also noticed the  `# noqa: F401`. This is to avoid `flake8`  or `pylint` to complain about unused imports. This is not nice, but it is minor annoyance.
+- Finally, you also noticed the `# noqa: F401`. This is to avoid `flake8` or `pylint` to complain about unused imports. This is not nice, but it is minor annoyance.
 
 ## Installing and running mypy
 
@@ -119,7 +119,7 @@ With that out of the way, we can start using `mypy` executable for checking our 
 ```
 
 - `--py2`: indicates that the code to check is a Python 2 codebase.
-- `--ignore-missing-imports` tells  `mypy` to ignore error messages when imports cannot be resolved, e.g. when they don't exist on the env mypy is running.
+- `--ignore-missing-imports` tells `mypy` to ignore error messages when imports cannot be resolved, e.g. when they don't exist on the env mypy is running.
 - `--check-untyped-defs`: checks functions but does not fail if the arguments are not typed.
 
 The command line tool provides a lot of options and the [documentation](http://mypy.readthedocs.io/en/stable/command_line.html#ignore-missing-imports) is very good. An interesting feature is that it allows you to generate reports that can be displayed using CI tools like Jenkins.
@@ -177,7 +177,7 @@ In the particular case of my team, a lot of the code we write ends up running fo
 
 ## Adding support to Emacs
 
-By now you might be thinking that it would be cool to integrate `mypy` checks into your editor. Some, like  [PyCharm](https://blog.jetbrains.com/pycharm/2015/11/python-3-5-type-hinting-in-pycharm-5/),  already support this.
+By now you might be thinking that it would be cool to integrate `mypy` checks into your editor. Some, like [PyCharm](https://blog.jetbrains.com/pycharm/2015/11/python-3-5-type-hinting-in-pycharm-5/), already support this.
 For Emacs you can integrate `mypy` into [Flycheck](http://www.flycheck.org/en/latest/) via [flycheck-mypy](https://github.com/lbolla/emacs-flycheck-mypy/). You can install it via `M-x package-install flycheck-mypy`.
 Configuring it is a matter of setting a couple of variables:
 
@@ -194,7 +194,7 @@ Mypy recommends disabling all other linters/checkers like `flake8` and others wh
 
 ## Final words and references
 
-Using `mypy` won't magically find errors in your code, it will be as good as the type annotations  you add and the way you structure the code. Also, it is not a replacement for proper documentation. Sometimes there are methods/functions that become easier to read just by adding type annotations, but documenting key parts of the code is vital for ensuring code  maintainability and extensibility.
+Using `mypy` won't magically find errors in your code, it will be as good as the type annotations you add and the way you structure the code. Also, it is not a replacement for proper documentation. Sometimes there are methods/functions that become easier to read just by adding type annotations, but documenting key parts of the code is vital for ensuring code maintainability and extensibility.
 
 I did not mention all the features of `mypy` so please check official [documentation](http://mypy.readthedocs.io/en/stable/) to learn more.
 
@@ -203,4 +203,4 @@ There are a couple of talks that can serve as a nice introduction to the topic:
 - [Introducing Type Annotations for Python](https://www.youtube.com/watch?v=ZP_QV4ccFHQ) - by Guido, Greg Price and David Fisher
 - [Static Types for Python PyCon 2017](https://www.youtube.com/watch?v=7ZbwZgrXnwY) - by Jukka Lehtosalo and David Fisher
 
-The first one of them is given by Guido, who's pushing  the project a lot. Thus, I expect `mypy` to become more popular in the following years. Happy hacking.
+The first one of them is given by Guido, who's pushing the project a lot. Thus, I expect `mypy` to become more popular in the following years. Happy hacking.

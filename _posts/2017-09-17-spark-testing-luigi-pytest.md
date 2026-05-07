@@ -10,6 +10,7 @@ status: draft
 ---
 
 ## TL;DR
+
 In this blog post I describe briefly how to test PySpark tasks using a combination of Luigi, PyTest and Mock.
 
 ## Intro
@@ -24,6 +25,7 @@ Luckily, Spark and PySpark make testing simpler as they allow to run Spark appli
 as DataFrames. This combined with Pytest, Luigi and Pytest-Fixtures.
 
 ## PySpark Tasks with Luigi
+
 Let's start with the basics of how to run a PySpark with Luigi. Luigi has the concept of Task, which is basically a step in a data pipeline. For example
 dumping data from a database or running a MapReduce job. To run a Spark job you simple need to set the spark configuration in the Luigi configuration file (luigi.cfg)
 and create a class that inherit from `luigi.contrib.spark.PySparkTask`:
@@ -65,7 +67,7 @@ Our little Spark task will group by user and get the average and will output the
 {
   "customer": "Mario X.",
   "month": "June",
-  "average":  123.42
+  "average": 123.42
 }
 ```
 
@@ -77,6 +79,7 @@ master: local
 ```
 
 ## Testing with fixtures
+
 For running a Luigi pipe we require to have a luigi configuration loaded into memory. In a real world pipe it will contain luigi specific configuration along with
 application specific setting.
 
@@ -85,7 +88,9 @@ This is a good example for a fixture...
 _Note: This post appears to be incomplete in the original source._
 
 ## Getting Fancier - Using Hypothesis to generate test data
+
 _To be continued..._
 
 ## Schema Testing with JSON schemas and Voluptuous
+
 _To be continued..._

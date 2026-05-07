@@ -34,6 +34,7 @@ nav_order: 2
         <span class="rb-numrow__meta">{% if talk.url %}Slides &rarr;{% endif %}</span>
       {% if talk.url %}</a>{% else %}</div>{% endif %}
     {% endfor %}
+
   </section>
 
   <p class="rb-mono" style="margin-top: 2rem; font-size: 0.7rem;">
