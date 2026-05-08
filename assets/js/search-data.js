@@ -59,17 +59,6 @@ ninja.data = [{
             window.location.href = "/blog/2021/dataframe-validation-libraries/";
           
         },
-      },{id: "post-testing-spark-tasks-with-pytest-mock-and-luigi",
-        
-          title: "Testing Spark tasks with PyTest, Mock and Luigi",
-        
-        description: "Testing PySpark tasks using Luigi, PyTest and Mock",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2017/spark-testing-luigi-pytest/";
-          
-        },
       },{id: "post-using-mypy-for-improving-your-codebase",
         
           title: "Using mypy for Improving your Codebase",
