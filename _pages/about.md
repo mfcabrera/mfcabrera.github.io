@@ -13,9 +13,9 @@ nav_order: 4
 
 <div class="rb-prose" markdown="1">
 
-I'm a data and AI engineer based in **Berlin**. I've spent my career building data, ML, and AI systems. From an MSc thesis on word2vec for German document retrieval at TU Munich, to NLP pipelines over hotel reviews, to demand forecasting for fast fashion, to product analytics at a publicly-traded e‑commerce platform, and now to LLM-driven sales intelligence at a B2B SaaS startup.
+I'm a data and AI engineer based in **Berlin**. I've spent my career building data, ML, and AI systems. From an MSc thesis on word2vec for German document retrieval at TU Munich, to NLP pipelines over hotel reviews, to demand forecasting for fast fashion, to product analytics at a publicly-traded e‑commerce platform, and now to multi-tenant ML and AI for sales intelligence at a B2B SaaS startup.
 
-I'm currently **Head of AI at [Plato](https://www.platoapp.ai/)**, a Berlin B2B SaaS building **sales intelligence for distributors and wholesalers**. Our customers are wholesale companies with thousands of sales reps making customer visits every week; our job is to turn their messy enterprise data into the three or four things a sales rep actually needs before walking into a meeting. I joined when the AI/Data function was zero people. I've grown it into a small team that owns **Sales Insights**, **Document Processing**, and **Search**. Day-to-day I'm part architect, part hiring manager, part hands-on builder, part company-internal storyteller. Most weeks I'm doing all four.
+I'm currently **Head of AI at [Plato](https://www.platoapp.ai/)**, a Berlin B2B SaaS building **sales intelligence for distributors and wholesalers**. Our customers are wholesale companies with thousands of sales reps making customer visits every week; our job is to turn their messy enterprise data into the three or four things a sales rep actually needs before walking into a meeting. I joined when the AI function was zero people. I've grown it into a small team that owns **Sales Insights**, **Document Processing**, and **Search**. Day-to-day I'm part architect, part hiring manager, part hands-on builder, part company-internal storyteller. Most weeks I'm doing all four.
 
 Before Plato I was a **Senior Data Scientist at [Shopify](https://www.shopify.com/)** working on product analytics and predictive models on the merchant platform; before that **Senior/Staff Data Scientist at New Yorker**, where I led a small multidisciplinary team on demand forecasting and inventory optimization for a European fast-fashion retailer; and before that **Senior Engineer / Tech Lead at TrustYou** in Munich, designing NLP and information-retrieval pipelines that extracted structured signals from millions of hotel reviews. My first production ML role was at **Gini**, doing document classification with word vectors and LibSVM (back when that was the leading edge).
 
@@ -50,7 +50,7 @@ Things I've come to believe after a decade and a half of doing this:
 _(Updated {{ "now" | date: "%B %Y" }})_
 
 - Building AI tooling for sales reps at Plato. Recently: a multi-tenant onboarding pipeline that took us from days of manual config per customer down to about 30 minutes. [A talk about it](/talks/) at the **Databricks Berlin User Group** in April 2026.
-- Leading the AI/Data team at Plato.
+- Leading the AI team at Plato.
 - Writing weekly on **agentic systems**, **knowledge scaffolding**, and **production AI for B2B**.
 - Reading: anything on **context engineering**, recsys with LLMs, and the practical edges of where agents stop being demos and start being infrastructure.
 - Out of the office: Brazilian Jiu-Jitsu, cycling around Berlin on a cargo bike with my five-year-old, surviving the early months of life with a newborn.

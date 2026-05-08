@@ -1,113 +1,182 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
-## Repository Overview
+> **Repo owner**: additional private guidance lives in `CLAUDE.local.md` (gitignored). Read it too if it exists.
 
-This is a Jekyll-based academic website using the **al-folio** theme. It's a personal homepage/blog for Miguel Cabrera hosted on GitHub Pages at `https://mfcabrera.github.io`.
+## What this is
 
-## Development Commands
+The source for **https://mfcabrera.com** (also reachable at `mfcabrera.github.io`). Personal site and blog. Jekyll on the al-folio v0.16.3 theme, deployed via GitHub Pages from `master`.
 
-### Local Development (Docker - Recommended)
+It is **not** an academic website even though al-folio was originally designed for academics. The al-folio "academic" surfaces (publications, projects, news, books, teaching, structured CV) have been removed. What remains: home, writing (blog), talks, code, about.
+
+## Visual identity (read before touching SCSS)
+
+The look is **the Runbook design language**, ported across from the repo owner's Databricks Berlin talk deck. Same person, same voice, different surface. **Do not propose Chirpy / Hydejack / Tufte / a different theme** without checking first — this aesthetic was a deliberate decision and has identity continuity with the slides.
+
+Tokens (in `_sass/_runbook.scss`):
+
+- Palette: paper `#F5F1E8`, paper-alt `#EBE4D2`, ink `#141414`, muted `#6B6B6B`, rule `rgba(20,20,20,0.22)`, accent `#D93A1A`, rb-black `#0E0E0E`
+- Type stack: **Source Serif 4** (display, italic for emphasis), **Inter** (body), **JetBrains Mono** (chrome, labels, eyebrows; uppercase, 0.14–0.22em tracking)
+
+Discipline (non-negotiable):
+
+- One accent per surface, applied to ≤1 element. The `<strong>` tag is **ink at 600**, not accent. For the rare line that should pop, use `<span class="rb-pull">…</span>`.
+- Body links are ink with a hairline `var(--rb-rule-color)` underline. Accent only on hover.
+- Hairlines, not fills. Cards are `border: 1px solid var(--rb-rule-color); background: transparent;`.
+- No shadows, no gradients, `border-radius` ≤ 2px. No emoji. No icons.
+- Dark mode is the inverted paper palette (rb-black bg, paper text). Accent stays.
+
+## Site architecture
+
+### Content
+
+- `_pages/home.md` — homepage at `/` (TOC layout: 01 Writing / 02 Talks / 03 Code). Uses the `home` layout. **This is the homepage**, not `_pages/about.md`.
+- `_pages/about.md` — narrative About page at `/about/`.
+- `_pages/blog.md` — `/blog/` archive (Runbook `rb-numrow` style).
+- `_pages/talks.md` — `/talks/` page reading from `_data/talks.yml`.
+- `_pages/404.md` — error page.
+- `_posts/` — published posts (Markdown front-matter). Posts get Giscus comments by default via `_config.yml` defaults block.
+- `_drafts/` — al-folio sample posts kept as feature reference (not published; Jekyll only emits drafts with `--drafts`).
+
+### Data
+
+- `_data/socials.yml` — github / linkedin / x / rss icons.
+- `_data/talks.yml` — talks list. Used by both homepage section 02 and the `/talks/` page.
+- `_data/repositories.yml` — curated repos for homepage section 03. Schema: `github_user` + `repos: [{name, description, lang, url}]`. Renders inline as `rb-numrow--repo`, no external github-readme-stats dependency.
+- `_data/citations.yml`, `_data/coauthors.yml`, `_data/venues.yml` — Jekyll Scholar bibliography helpers, dormant (papers.bib is empty).
+
+### Layouts (custom or modified)
+
+- `_layouts/home.liquid` — TOC homepage. **Custom** (not stock al-folio).
+- `_layouts/post.liquid` — Runbook breadcrumb header (no FA icons), mono-uppercase post-meta, hairline underline on category links.
+- `_layouts/archive.liquid` — `rb-post-header` style, no FA icons.
+- `_layouts/page.liquid` — used by About, Talks. Stock al-folio with Runbook overrides.
+- `_layouts/about.liquid` — present but **unused** (homepage is `home`, not `about`). Safe to ignore.
+- `_layouts/cv.liquid` — **deleted**.
+
+### Styles
+
+- `_sass/_runbook.scss` — design tokens, mixins (`rb-mono-chrome`, `rb-figure`).
+- `_sass/_runbook-overrides.scss` — al-folio CSS variable remapping + base element restyling + utility classes (`.rb-eyebrow`, `.rb-pull`, `.rb-card`, `.rb-numrow`, `.rb-figure-img`, `.rb-figure-embed`, etc.). Loaded LAST in `assets/css/main.scss` so it wins the cascade.
+- `_sass/_themes.scss` — al-folio's theme variables. Don't edit; override via `_runbook-overrides.scss`.
+
+### Custom utilities
+
+- `.rb-pull` — for the one accent line per post that should scan in a second
+- `.rb-eyebrow` / `.rb-eyebrow--muted` — mono-uppercase labels
+- `.rb-numrow` (and `--repo` variant) — runbook numbered row used on archive + homepage TOC
+- `.rb-figure-img` / `.rb-figure-embed` — photo / iframe with hairline border + mono caption
+- `.rb-prose` — long-form narrative wrapper (used on About). Use `markdown="1"` attribute when wrapping markdown content in HTML.
+- `.rb-quickfacts` — sidebar definition list (used on About)
+
+## Commenting and embeds
+
+- **Giscus**: comments on posts via GitHub Discussions, mapping by `pathname`. Repo: `mfcabrera/mfcabrera.github.io`, category: `General`. Default-on for posts via `_config.yml` defaults block. Container styled in `_runbook-overrides.scss` with mono "Comments" eyebrow + hairline rule.
+- **Speaker Deck embeds**: use `<figure class="rb-figure-embed">` wrapping an `<iframe src="https://speakerdeck.com/player/{ID}">`. The native aspect ratio is 710:399.
+
+## Custom domain
+
+- Live at **https://mfcabrera.com**
+- `mfcabrera.github.io` still works and redirects.
+- DNS: GoDaddy. Apex has 4 A records to GitHub Pages IPs; `www` CNAME points to `mfcabrera.com`.
+- `CNAME` file at repo root contains `mfcabrera.com`.
+- `_config.yml` `url:` is `https://mfcabrera.com`.
+- "Enforce HTTPS" enabled in repo Pages settings.
+
+## Development
+
+### Local (Docker, recommended — has Python jupyter baked in)
 
 ```bash
-# Pull and run the site locally
-docker compose pull
 docker compose up
-
-# Alternative: Use slim image (smaller, same functionality)
-docker compose -f docker-compose-slim.yml up
-
-# Build custom image
-docker compose up --build
+# http://localhost:8080
 ```
 
-The site will be available at `http://localhost:8080` with live reload enabled.
-
-### Local Development (Ruby/Jekyll)
+Restart after editing `_config.yml`, `_layouts/`, `_sass/`, or front-matter:
 
 ```bash
-# Install dependencies
+docker compose restart
+```
+
+### Local (Ruby/Jekyll)
+
+```bash
 bundle install
-pip install jupyter  # For Jupyter notebook support
-
-# Serve locally
-bundle exec jekyll serve
-# Site available at http://localhost:4000
-```
-
-### Build and Deploy
-
-```bash
-# Build static site
 bundle exec jekyll build
-
-# Build with custom destination
-bundle exec jekyll build --destination /path/to/destination
-
-# Purge unused CSS (optional optimization)
-purgecss -c purgecss.config.js
+bundle exec jekyll serve  # http://localhost:4000
 ```
 
-### Code Quality
+### Code quality
 
 ```bash
-# Format code with Prettier
-npx prettier --write .
-
-# The repository uses GitHub Actions for automated checks:
-# - Prettier formatting
-# - Link checking with lychee
-# - Automated deployment to gh-pages branch
+npx prettier --write .  # before pushing — Prettier CI fails on display
 ```
 
-## Site Architecture
+GitHub Actions on push to `master`:
 
-### Content Structure
+- `Deploy site` — builds and serves to `gh-pages`
+- `Prettier code formatter` — runs `npx prettier . --check`. **Run `--write` locally first.**
+- `Check for broken links on site` — lychee
 
-- `_pages/`: Main site pages (about, blog, cv, projects, publications, etc.)
-- `_posts/`: Blog posts in Markdown format
-- `_projects/`: Project portfolio items
-- `_news/`: News/announcement items
-- `_bibliography/`: BibTeX files for publications
-- `_data/`: YAML data files (CV, repositories, venues, coauthors)
+## Deployment flow
 
-### Key Configuration
+`master` is the live branch. Pushing to `master` triggers the GitHub Pages deploy workflow which builds Jekyll and pushes the result to `gh-pages`. Live within ~2 minutes.
 
-- `_config.yml`: Main Jekyll configuration and site settings
-- `Gemfile`: Ruby gem dependencies
-- `package.json`: Node.js dependencies (Prettier)
+## Common operations
 
-### Layouts and Templates
+### Adding a new post
 
-- `_layouts/`: Page layout templates (Liquid)
-- `_includes/`: Reusable template components
-- `_sass/`: SCSS stylesheets and theme variables
-- `assets/`: Static assets (images, CSS, JS, fonts)
+1. Create `_posts/YYYY-MM-DD-slug.md` with front matter:
+   ```yaml
+   ---
+   layout: post
+   title: "..."
+   date: YYYY-MM-DD HH:MM:SS
+   categories: ...
+   tags: ...
+   description: ...
+   featured: true # if it should appear in the Featured section on /blog/
+   ---
+   ```
+2. Comments are on by default (Giscus). To disable for a specific post: `giscus_comments: false` in front matter.
+3. For images: put files in `assets/img/posts/`. Wrap with `<figure class="rb-figure-img">…<figcaption>…</figcaption></figure>`.
 
-### Content Management
+### Adding a talk
 
-- **Blog**: Posts in `_posts/` with YAML front matter
-- **Publications**: Managed via `_bibliography/papers.bib` (BibTeX format)
-- **CV**: Data-driven from `_data/cv.yml` or `assets/json/resume.json`
-- **Projects**: Portfolio items in `_projects/` collection
-- **GitHub Integration**: Repository data via `_data/repositories.yml`
+Edit `_data/talks.yml`. New entries on top. Schema:
 
-## Key Features
+```yaml
+- year: 2026
+  title: "..."
+  venue: "..."
+  format: "30 min" # optional
+  url: "https://speakerdeck.com/..."
+```
 
-- Responsive Jekyll theme optimized for academics
-- Publications management via Jekyll Scholar
-- Jupyter notebook integration
-- Math typesetting with MathJax
-- Code syntax highlighting
-- Dark/light mode support
-- GitHub Pages deployment with automated CI/CD
-- Docker containerization for development
+### Adding a repository to the homepage
 
-## File Locations
+Edit `_data/repositories.yml`. Schema:
 
-- Main content: `_pages/about.md`
-- Blog configuration: `_config.yml` (blog_name, pagination settings)
-- Styling: `_sass/_themes.scss`, `_sass/_variables.scss`
-- Images: `assets/img/`
-- Publications: `_bibliography/papers.bib`
+```yaml
+repos:
+  - name: hooqu
+    description: ...
+    lang: Python
+    url: https://github.com/...
+```
+
+### Updating the design system
+
+Edit `_sass/_runbook.scss` (tokens) or `_sass/_runbook-overrides.scss` (everything else). Run `docker compose restart`. Hard-refresh the browser.
+
+### Editing the homepage layout
+
+`_layouts/home.liquid` is the homepage. Sections 01–03 (Writing, Talks, Code) are inline in that file. Add a new section by following the existing pattern: `rb-home-section` div, italic-serif numeral, mono-uppercase label, optional `__more` link.
+
+## Things to avoid
+
+- Reaching for a third-party theme. The Runbook system is intentional and reusable.
+- Adding emoji or icons. Use mono-uppercase labels and italic-serif emphasis instead.
+- Putting `<strong>` text in accent color (use `.rb-pull` for that one line per post).
+- Using Google Analytics. If analytics is needed eventually, prefer privacy-respecting options like GoatCounter or Plausible.
