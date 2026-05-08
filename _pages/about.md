@@ -21,6 +21,11 @@ Before Plato I was a **Senior Data Scientist at [Shopify](https://www.shopify.co
 
 Education: BEng Systems & Informatics from **Universidad Nacional de Colombia (Medellín)**, MSc Informatics from **TU Munich**, plus the **CDTM Honours Master in Technology Management** (joint TUM/LMU).
 
+{% comment %}
+"What I write about" section — hidden until there's a body of writing
+to back it up. Uncomment once 4-5 posts are live and the topic
+clustering is visible from the post archive itself.
+
 ## What I write about
 
 This site is mostly a notebook. I write when I've learned something concrete and I want to keep it findable later. The topics tend to cluster:
@@ -29,6 +34,7 @@ This site is mostly a notebook. I write when I've learned something concrete and
 - **Machine learning in production.** What changes when models leave the lab; what doesn't; what to instrument so you'll know which it is next time.
 - **Python tooling and software practice.** Type hints, testing, the small things that make code outlast the person who wrote it.
 - **Agentic systems and Claude Code.** What works, what's hype, what's actually shippable inside a real production codebase.
+  {% endcomment %}
 
 ## How I work
 
@@ -49,9 +55,11 @@ _(Updated {{ "now" | date: "%B %Y" }})_
 - Reading: anything on **context engineering**, recsys with LLMs, and the practical edges of where agents stop being demos and start being infrastructure.
 - Out of the office: Brazilian Jiu-Jitsu, cycling around Berlin on a cargo bike with my five-year-old, surviving the early months of life with a newborn.
 
-## Community
+## A past life in community
 
-I've spent a fair amount of time in the European Python and data community. I founded **Munich DataGeeks** (2013 to 2015), co-organized the **PyData Berlin Conference (2017)** and **PyBerlin Meetup (2019 to 2020)**, and have spoken at **PyData Berlin**, **PyCon DE**, **EuroPython**, **DSPT Day Porto**, and the **Databricks Berlin User Group**. The [Talks page](/talks/) has slides for most of them. I've made small contributions to **Luigi**, **Gensim**, **Catboost**, **Hooqu**, and **scikit-learn** over the years.
+For about a decade I was active in the European Python and data community. I founded **Munich DataGeeks** (2013 to 2015), co-organized the **PyData Berlin Conference (2017)** and **PyBerlin Meetup (2019 to 2020)**, and spoke at **PyData Berlin**, **PyCon DE**, **EuroPython**, and **DSPT Day Porto**. The [Talks page](/talks/) has slides for most of those. I also made small contributions to **Luigi**, **Gensim**, **Catboost**, **Hooqu**, and **scikit-learn** along the way.
+
+The last few years I have been mostly dormant on that front. Kids, work, and what not.
 
 ## Talk to me
 
