@@ -133,14 +133,101 @@ GitHub Actions on push to `master`:
    layout: post
    title: "..."
    date: YYYY-MM-DD HH:MM:SS
-   categories: ...
-   tags: ...
-   description: ...
-   featured: true # if it should appear in the Featured section on /blog/
+   categories: ... # one or more; auto-generates /blog/category/{name}/ pages
+   tags: ... # one or more; auto-generates /blog/tag/{name}/ pages
+   description: ... # shown on homepage row + /blog/ archive + RSS + OG preview
+   featured: true # optional; adds to "Featured" section on /blog/
+   giscus_comments: false # optional; comments are on by default
+   related_posts: false # optional; related-posts block is on by default
+   toc:
+     beginning: true # optional; auto table of contents at top
+   redirect: https://... # optional; makes the post link out (for external posts)
    ---
    ```
-2. Comments are on by default (Giscus). To disable for a specific post: `giscus_comments: false` in front matter.
-3. For images: put files in `assets/img/posts/`. Wrap with `<figure class="rb-figure-img">…<figcaption>…</figcaption></figure>`.
+2. Comments are on by default (Giscus). The first comment auto-creates a GitHub Discussion mapped by URL pathname.
+3. For images: put files in `assets/img/posts/`. Wrap with the Runbook figure utility (see "Writing reference" below).
+
+## Writing reference
+
+### Runbook utilities (prefer these over al-folio's chrome)
+
+The site has its own design vocabulary. Reach for these utilities first; they keep the editorial aesthetic consistent across posts.
+
+**`<span class="rb-pull">…</span>`** — the _one_ line per post that should scan in a second. Renders as accent + 600 weight. Use for the takeaway sentence, the surprise, the punchline. **One per post max.** Do not paint regular `<strong>` accent.
+
+**`<figure class="rb-figure-img">…</figure>`** — photo with hairline border + mono-uppercase caption. Use for event photos, screenshots, and any inline image:
+
+```html
+<figure class="rb-figure-img">
+  <img src="{{ '/assets/img/posts/foo.jpg' | relative_url }}" alt="..." loading="lazy" />
+  <figcaption>VENUE · YYYY-MM-DD · CAPTION</figcaption>
+</figure>
+```
+
+**`<figure class="rb-figure-embed">…</figure>`** — iframe with hairline border + mono caption. Use for slide embeds (Speaker Deck native ratio is 710:399):
+
+```html
+<figure class="rb-figure-embed">
+  <iframe src="https://speakerdeck.com/player/{ID}" title="..." allow="fullscreen" loading="lazy" frameborder="0" allowtransparency="true"></iframe>
+  <figcaption>TALK TITLE · VENUE · YYYY-MM</figcaption>
+</figure>
+```
+
+**`<div class="rb-prose" markdown="1">…</div>`** — long-form narrative wrapper used on About. 68ch measure, serif h2 with hairline rule, em-dash list markers, ink-with-rule-underline links. The `markdown="1"` attribute is required when wrapping Markdown content in any HTML block.
+
+**`<aside class="rb-quickfacts">…</aside>`** — sidebar definition list (used on About for languages, education, current/previous roles). `dl > dt` is mono uppercase, `dd` is body.
+
+**`<div class="rb-eyebrow">LABEL</div>`** / **`.rb-eyebrow--muted`** — mono-uppercase eyebrow above titles. Accent or muted variant.
+
+**`<span class="rb-mono">…</span>`** — inline mono uppercase chrome text. Use for dates, IDs, anything that should read as document chrome rather than prose.
+
+**`<span class="rb-figure rb-figure--accent">42</span>`** — italic-serif numerals (the Runbook signature). Used for editorial figures and section numerals.
+
+**`<div class="rb-card">…</div>`** / **`.rb-card--hi`** — hairline-bordered card, transparent fill. Use sparingly; the editorial aesthetic prefers no cards at all. Highlighted variant uses 10%-opacity accent tint.
+
+**`.rb-numrow`** — the runbook numbered row used on `/blog/`, `/talks/`, and the homepage TOC. Three columns: `[year/figure 56px][title + sub flex][meta auto]`. Variant `.rb-numrow--repo` swaps the numeral column for a mono `/repo-name`.
+
+### Markdown features (al-folio extras you can use freely)
+
+- **Code highlighting** — triple-backtick + language. Includes `console` for shell sessions (prompt is bold + non-selectable so triple-click copy doesn't grab the `$`). Theming is already toned-down.
+- **Math** — `$inline$`, `$$display$$` (MathJax).
+- **Mermaid diagrams** — wrap in ` ```mermaid `. Auto-rendered.
+- **Footnotes** — `text[^1]` plus `[^1]: definition.` at the bottom.
+- **Auto-TOC** — front matter `toc: { beginning: true }`.
+- **Liquid in Markdown is allowed.** Useful for `{% comment %}` blocks (hide draft sections without deleting), `{{ "now" | date: "%B %Y" }}` for "Updated" lines, and `{% include figure.liquid %}` if you ever want al-folio's responsive `srcset` instead of a plain `<img>`.
+
+### Avoid (these fight the Runbook aesthetic)
+
+- **al-folio custom blockquotes** (`> [!note]`, `> [!tip]`, `> [!warning]`) — they render as colored callout cards. Use plain `>` blockquotes instead (already styled with the Runbook 3px accent left border + italic Source Serif).
+- **`<img>` without `<figure class="rb-figure-img">` wrapping** — the bare `<img>` doesn't get the hairline border or caption, and looks unfinished.
+- **Bootstrap-style cards or columns** for content layout. The Runbook uses hairlines and grids, not cards.
+- **`figure.liquid` for hero images** — it works, but the `rb-figure-img` utility is purpose-built for the editorial caption style (mono uppercase, hairline rule top).
+- **Decorative emoji or icons** — not part of the design language.
+
+### Site features worth knowing about
+
+| Feature               | Where                             | Notes                                                                                                                                                   |
+| --------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **RSS**               | `/feed.xml`                       | Auto-generated, included in footer. Share with subscribers.                                                                                             |
+| **Sitemap**           | `/sitemap.xml`                    | Auto-generated with canonical URLs (now `mfcabrera.com`).                                                                                               |
+| **Site search**       | top-right magnifying glass        | JS-based search across pages + posts.                                                                                                                   |
+| **Dark/light mode**   | top-right toggle                  | Persists in localStorage; respects system preference. The Runbook design has both modes (paper / rb-black inversion).                                   |
+| **Tag archives**      | `/blog/tag/{name}/`               | Auto-generated from post `tags:`.                                                                                                                       |
+| **Category archives** | `/blog/category/{name}/`          | Auto-generated from `categories:`.                                                                                                                      |
+| **Year archives**     | `/blog/{year}/`                   | Auto-generated.                                                                                                                                         |
+| **Pagination**        | `/blog/page/N/`                   | Configured in `_pages/blog.md` (`per_page: 10`).                                                                                                        |
+| **External posts**    | `_config.yml` `external_sources:` | Currently empty. Add a Medium RSS or manual URL list and posts auto-fetch at build, appear in `/blog/` with `external_source` label, open in a new tab. |
+
+### Disabled (still in the codebase, can be revived)
+
+| Feature                       | How to revive                                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| CV layout                     | Restore `_layouts/cv.liquid` from git history                                                                |
+| Publications (Jekyll Scholar) | Add entries to `_bibliography/papers.bib`, re-add a publications page                                        |
+| Projects                      | Drop `.md` files in `_projects/` with project front matter; page at `/projects/` lights up                   |
+| News, Books, Teaching         | Set `output: true` in `_config.yml` `collections:`, re-add the page                                          |
+| Newsletter signup             | Set `newsletter.enabled: true` in `_config.yml`, configure Loops endpoint                                    |
+| Open Graph + Schema.org meta  | Set `serve_og_meta: true` and `serve_schema_org: true` in `_config.yml` for richer LinkedIn/Twitter previews |
 
 ### Adding a talk
 
