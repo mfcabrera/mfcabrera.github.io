@@ -1396,6 +1396,125 @@ html[data-theme="dark"] .highlight {
   height: auto;
 }
 
+// ── Callout blockquotes (Runbook variants of .block-tip/-warning/-danger) ──
+//
+// al-folio ships colored-fill cards that fight the editorial aesthetic.
+// Override to hairline-card variants differentiated by eyebrow colour.
+// Kramdown syntax (preferred):
+//
+//   > ##### TIP
+//   >
+//   > Body of the tip in italic Source Serif.
+//   {: .block-tip }
+//
+// The h5 heading inside the blockquote becomes the mono-uppercase eyebrow;
+// the rest of the body keeps the standard Runbook blockquote styling
+// (italic Source Serif, 3px accent left border).
+
+blockquote.block-tip,
+blockquote.block-warning,
+blockquote.block-danger {
+  // Override al-folio's filled card with the hairline pattern
+  background-color: transparent !important;
+  border: 1px solid var(--rb-rule-color);
+  border-left: 1px solid var(--rb-rule-color);
+  border-radius: 2px;
+  padding: 14px 18px;
+  margin: 1.6em 0;
+  font-size: 1rem;
+  font-family: $rb-font-serif;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--global-text-color);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include rb-mono-chrome($size: 0.7rem, $tracking: 0.22em, $color: var(--global-text-color-light));
+    font-weight: 500 !important;
+    margin: 0 0 0.5em 0;
+    padding: 0;
+    line-height: 1.3;
+    border: none;
+  }
+
+  // Body styling
+  p,
+  li,
+  em,
+  strong,
+  a {
+    color: var(--global-text-color) !important;
+    font-style: italic;
+  }
+
+  p {
+    margin-bottom: 0.6em;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  // Strong inside callouts: ink at 600, italic preserved
+  strong,
+  b {
+    font-weight: 600 !important;
+    font-style: italic;
+  }
+
+  // Links: ink + hairline underline (same as body)
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--rb-rule-color);
+    &:hover {
+      color: var(--global-theme-color) !important;
+      text-decoration-color: var(--global-theme-color);
+    }
+  }
+}
+
+// TIP — neutral, informational. Eyebrow in muted ink.
+blockquote.block-tip {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--global-text-color-light);
+  }
+}
+
+// WARNING — attention. Eyebrow in accent.
+blockquote.block-warning {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--global-theme-color);
+  }
+}
+
+// DANGER — strongest signal. Accent eyebrow + 10% accent tint fill.
+blockquote.block-danger {
+  background: rgba(217, 58, 26, 0.08) !important;
+  border-color: var(--global-theme-color);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--global-theme-color);
+  }
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {

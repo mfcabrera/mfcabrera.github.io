@@ -36,15 +36,6 @@ This site is mostly a notebook. I write when I've learned something concrete and
 - **Agentic systems and Claude Code.** What works, what's hype, what's actually shippable inside a real production codebase.
   {% endcomment %}
 
-## How I work
-
-Things I've come to believe after a decade and a half of doing this:
-
-- **Deployment beats brilliance.** The best model is the one that's actually serving users next week, not the one that beat SOTA on a benchmark you'll never re-run.
-- **Boring infrastructure is competitive advantage.** Every minute spent on a reliable build, a sane data model, or a clean deploy is a minute that compounds.
-- **Write things down.** For your future self, for your team, and now for the AI agents that work alongside you. The shape of your `CLAUDE.md`, your skills, your runbooks: that's becoming as important as the shape of your code.
-- **Generalists who can lead beat specialists who can't.** Eight years deep on one stack is great until the platform shifts under you.
-
 ## Now
 
 _(Updated {{ "now" | date: "%B %Y" }})_
