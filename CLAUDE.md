@@ -196,9 +196,36 @@ The site has its own design vocabulary. Reach for these utilities first; they ke
 - **Auto-TOC** — front matter `toc: { beginning: true }`.
 - **Liquid in Markdown is allowed.** Useful for `{% comment %}` blocks (hide draft sections without deleting), `{{ "now" | date: "%B %Y" }}` for "Updated" lines, and `{% include figure.liquid %}` if you ever want al-folio's responsive `srcset` instead of a plain `<img>`.
 
+### Callouts (tip / warning / danger blockquotes)
+
+al-folio's `.block-tip` / `.block-warning` / `.block-danger` classes have been re-skinned to match the Runbook aesthetic. Hairline border, no fills (except a subtle 10% accent tint for danger), italic Source Serif body, mono-uppercase eyebrow from the h5. Use the kramdown attribute syntax:
+
+```markdown
+> ##### TIP
+>
+> Body in italic Source Serif. Useful when you want to flag a small,
+> related insight without breaking the prose flow.
+> {: .block-tip }
+
+> ##### WARNING
+>
+> Eyebrow renders in accent. Use when you genuinely want the reader
+> to slow down on something they could easily miss.
+> {: .block-warning }
+
+> ##### DANGER
+>
+> Strongest signal. Eyebrow + hairline border in accent, faint accent
+> tint fill. Reserve for "if you ignore this you'll get burned" moments.
+> {: .block-danger }
+```
+
+The `> [!note]` GitHub-flavored syntax is **not** supported by kramdown out of the box, but the styling above renders for the same purpose. One callout per post is plenty; more than two and the post stops feeling like prose.
+
+Use sparingly. The plain `>` blockquote (3px accent left border, italic Source Serif, no eyebrow) is already a strong typographic move and usually the right tool.
+
 ### Avoid (these fight the Runbook aesthetic)
 
-- **al-folio custom blockquotes** (`> [!note]`, `> [!tip]`, `> [!warning]`) — they render as colored callout cards. Use plain `>` blockquotes instead (already styled with the Runbook 3px accent left border + italic Source Serif).
 - **`<img>` without `<figure class="rb-figure-img">` wrapping** — the bare `<img>` doesn't get the hairline border or caption, and looks unfinished.
 - **Bootstrap-style cards or columns** for content layout. The Runbook uses hairlines and grids, not cards.
 - **`figure.liquid` for hero images** — it works, but the `rb-figure-img` utility is purpose-built for the editorial caption style (mono uppercase, hairline rule top).
