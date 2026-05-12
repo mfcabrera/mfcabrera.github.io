@@ -19,3 +19,18 @@ services:
       - .:/srv/jekyll
     environment:
       - JEKYLL_ENV=development
+    # Override the image entrypoint to include --unpublished so locally
+    # we preview posts marked `published: false`. The deploy workflow runs
+    # `bundle exec jekyll build` without this flag and excludes them.
+    #
+    # --drafts is intentionally NOT included: the al-folio sample posts
+    # in _drafts/ have inter-post Liquid links to other drafts that break
+    # the build. Use `published: false` in _posts/ for your own drafts.
+    command: >
+      bash -c "
+      git config --global --add safe.directory '*';
+      bundle exec jekyll serve
+      --watch --port=8080 --host=0.0.0.0 --livereload
+      --force_polling --trace
+      --unpublished
+      "

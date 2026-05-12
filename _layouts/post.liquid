@@ -13,6 +13,21 @@ layout: default
   </style>
 {% endif %}
 
+{% comment %}
+  Draft banner: rendered when a post has `published: false` in front matter.
+  Jekyll only serves these locally (docker compose adds --unpublished), so
+  this banner is never visible on mfcabrera.com. It's a guardrail to prevent
+  confusing a local preview with a shipped post.
+{% endcomment %}
+{% if page.published == false %}
+  <div class="rb-draft-banner" role="status">
+    <span class="rb-draft-banner__label">Draft · not published</span>
+    <span class="rb-draft-banner__hint">
+      Local preview only. <code>published: false</code> in front matter. Flip to <code>true</code> (or remove the line) to ship.
+    </span>
+  </div>
+{% endif %}
+
 <div class="post">
   <header class="post-header rb-post-header">
     <div class="rb-breadcrumb">

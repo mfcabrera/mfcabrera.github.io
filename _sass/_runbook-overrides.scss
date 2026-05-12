@@ -1515,6 +1515,42 @@ blockquote.block-danger {
   }
 }
 
+// ── Draft banner (local-preview only) ───────────────────────────────────────
+//
+// Rendered by _layouts/post.liquid when page is in _drafts/ or has
+// `published: false`. Never appears on mfcabrera.com (the deploy workflow
+// runs without --drafts / --unpublished, so those posts are not built).
+
+.rb-draft-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 2rem 0;
+  padding: 12px 16px;
+  border: 1px solid var(--global-theme-color);
+  border-left-width: 3px;
+  border-radius: 2px;
+  background: rgba(217, 58, 26, 0.06);
+
+  &__label {
+    @include rb-mono-chrome($size: 0.78rem, $tracking: 0.22em, $color: var(--global-theme-color));
+    font-weight: 600;
+  }
+
+  &__hint {
+    font-size: 0.85rem;
+    color: var(--global-text-color);
+    font-family: $rb-font-sans;
+
+    code {
+      background: transparent;
+      padding: 0;
+      font-size: 0.85em;
+      color: var(--global-text-color-light);
+    }
+  }
+}
+
 // ── Selection ────────────────────────────────────────────────────────────────
 
 ::selection {
