@@ -1,107 +1,143 @@
 ---
 layout: post
-title: "What I had to teach Claude before it could ship to production"
+title: "The Agent Doesn't Know Your Stack"
+subtitle: "What I had to teach Claude before it could ship to production"
 date: 2026-05-13 09:00:00
 categories: ai-engineering
 tags: claude_code ai_coding plato databricks dabs skills context_engineering
-description: Five tiers between a coding agent and a real production codebase, each one earned by a failure I watched it produce.
+description: Five layers between a coding agent and a real production codebase, each one earned by a failure I watched it produce. The deepest one is the one most posts skip.
 featured: true
 published: false
 ---
 
-The agent broke a tenant on a Tuesday.
+The [talk]({% post_url 2026-04-29-databricks-berlin-user-group-recap %}) had a slide titled "The Agent Doesn't Know Your Stack." It is the slide I keep going back to in my head, weeks after the Databricks meetup in Berlin. The punchline at the end of the section was: <span class="rb-pull">prompt-engineering gets you a demo, knowledge scaffolding gets you production</span>.
 
-It was a small change. Onboard a new wholesaler, generate the Databricks bundle, push it through CI. The agent had done this fifty times already. This time it confidently joined `dim_customer` to `order_line_transaction` on the wrong key, the pipeline went green because the join still returned rows, and the customer got an insights dashboard with the wrong customer's data on top of it. Caught in QA. No external damage. But the agent thought it had succeeded, and the tests thought it had succeeded, and that was the problem.
+That line was earned the slow way. We did not start with five layers. We started with one big `CLAUDE.md`, watched the agent fail in five different shapes, and ended up with one layer per failure mode.
 
-That afternoon I started writing down what the agent had to know before I trusted it again. I expected the list to be about prompts. It was not. It was five layers deep, and the deepest one was the one nobody writes blog posts about.
+## Why does this matter?
 
-## So why does this matter?
+There is a lot written right now about how to get more out of [Claude Code](https://www.claude.com/product/claude-code), [Codex](https://openai.com/codex/), or [Cursor](https://cursor.com/). Most of it is at the configuration layer: `CLAUDE.md` patterns, skills, subagents, plugins, memory files, hooks. Martin Fowler's [Context Engineering for Coding Agents](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html), Shrivu Shankar's [How I Use Every Claude Code Feature](https://blog.sshh.io/p/how-i-use-every-claude-code-feature), and Anthropic's [Skills documentation](https://code.claude.com/docs/en/skills) all cover that layer carefully. None of it is wrong.
 
-There is a lot written right now about how to get more out of Claude Code or Codex or Cursor. Most of it is at the configuration layer. CLAUDE.md patterns. Skills. Subagents. Plugins. Memory files. Hooks. All of it useful, none of it wrong.
+Most Claude Code setup writing starts at configuration. In data-heavy production systems, configuration only works after the agent has access to the data model.
 
-But it skips the floor.
+If the agent does not understand the shape of your data, no amount of `CLAUDE.md` saves you. It will write code that compiles, passes tests, and ships nonsense. The same prerequisite that [Databricks Genie](https://docs.databricks.com/aws/en/genie/) imposes (clean dimensional model, consistent join keys, documented column semantics) applies to a coding agent. Genie just makes it visible because it refuses to query when the data model is a mess. The coding agent is more polite. It just guesses.
 
-If the agent does not understand the shape of your data, no amount of CLAUDE.md saves you. It will write code that compiles, passes tests, and ships nonsense. The Tuesday tenant incident was not a prompting problem. It was a data-model problem dressed up as a prompting problem.
+This is close to the semantic-layer conversation in data systems: [dbt's semantic layer](https://docs.getdbt.com/docs/build/about-metricflow), [Cube](https://cube.dev/), [Malloy](https://www.malloydata.dev/), and the broader push to make metrics and data semantics explicit. The shared bet is that humans, BI tools, and now LLMs all do better when the meaning of the data lives in one place. A coding agent is one more consumer of that semantic layer, just with the worst manners.
 
-So when I think about scaffolding a coding agent for a real production codebase (in our case, a multi-tenant ML platform with 50+ wholesale-distributor tenants, [Databricks](https://www.databricks.com/) underneath, a Python monorepo on top), I think in five tiers. Each tier earns its place because of a specific failure I have actually watched the agent produce.
+So when I think about scaffolding a coding agent for a real production codebase (in our case at [Plato](https://www.platoapp.ai/), a multi-tenant ML platform with 50+ wholesale-distributor tenants, [Databricks](https://www.databricks.com/) underneath, a Python monorepo on top), I think in five layers. Each layer earned by a specific failure I have watched the agent produce.
 
-## Tier 1: The data model
+## The migration story
+
+For a while we had everything in `CLAUDE.md`. SQL style. Spark wrappers. Logging conventions. The data-querying protocol. It worked, in the way a junk drawer works: you can find things if you remember which one this was.
+
+Then the agent footprint grew. Eight skills. Multiple MCP servers. `CLAUDE.md` got long enough that the agent was spending real token budget on the constitution before it had read the actual task. New sessions started slow. Long sessions started losing the plot.
+
+That was the moment we migrated standing knowledge out of `CLAUDE.md` into a `.claude/rules/` folder, kept `CLAUDE.md` short, and let the agent pull rules only when relevant. Three weeks later the difference was obvious. Faster sessions. Cheaper sessions. The same agent, with less irrelevant context to drag around.
+
+That migration is the post in miniature: the right knowledge in the right layer, loaded at the right time. Below is the full shape.
+
+## Layer 1: The data model
 
 This is the floor. The agent has to know what your data _is_ before it can reason about what to do with it.
 
-In our case the model is a dimensional warehouse: facts (orders, line items, quotes), dimensions (customer, article, time), aggregates published into [StarRocks](https://www.starrocks.io/) for the app to query. The names are conventional. The semantics are not. `customer_id` in the analytics layer is not the same `customer_id` your CRM thinks it is. `order_status = 'completed'` means different things for two tenants because they map their ERP states differently in onboarding.
+In our case the model is a dimensional warehouse. Facts (orders, line items, quotes), dimensions (customer, article, time), aggregates published into [StarRocks](https://www.starrocks.io/) for the app to query. The names are conventional. The semantics are not. `customer_id` in the analytics layer is not the same `customer_id` your CRM thinks it is. `order_status = 'completed'` means different things for two tenants because they map their ERP states differently in onboarding.
 
-That kind of detail does not live in column names. It lives in a `DATA_MODEL.md` document we wrote (and keep updating) that explains the dimensional model, the join paths, the tenant-specific overrides, and the gotchas. The agent reads it through a skill called `databricks-data-query` that the agent invokes any time it has to write a query. The skill description tells the agent _when_ to use it. The body tells it _what to know_.
+That kind of detail does not live in column names. It lives in a `DATA_MODEL.md` document we wrote (and keep updating) that explains the dimensional model, the join paths, the tenant-specific overrides, and the gotchas. The agent reads it through a skill called `databricks-data-query` that the agent invokes any time it has to write a SQL query. The skill description tells the agent _when_ to use it. The body tells it _what to know_.
 
-Before this tier existed, the agent invented joins. After it existed, the agent looked things up and asked questions.
+Before this layer existed, the agent invented joins. After it existed, the agent looked things up and asked questions.
 
-Failure mode this tier solves: <span class="rb-pull">the agent writes code that runs but means the wrong thing</span>.
+## Layer 2: `CLAUDE.md`
 
-## Tier 2: CLAUDE.md
+The agent's constitution. The only file guaranteed to load at the start of every session. It is also the most over-loaded file in most repos I have seen, including ours for a while (see the migration story above).
 
-This is the agent's constitution, in the sense that it is the only thing guaranteed to load at the start of every session. It is also the most over-loaded file in most repos I have seen, including ours for a while.
+The temptation is to put everything there. Don't. `CLAUDE.md` is for the rules that should apply to _every_ session, regardless of task. Ours is short and boring:
 
-The temptation is to put everything there. Don't. CLAUDE.md is for the rules that should apply to _every_ session, regardless of task. Ours is short and boring. It says:
+- this is a Python monorepo, use Poetry
+- lint failures are blocking
+- Databricks code uses `from pyspark.sql import functions as F`
+- when in doubt about data, read `DATA_MODEL.md` and then ask
+- never bypass the bundle CI
 
-- This is a Python 3.11 monorepo using Poetry.
-- We use `ruff` and `mypy` (strict). Lint failures are blocking.
-- All Databricks code uses `from databricks import sql as F` (yes, we wrap it that way).
-- When in doubt about data, read `DATA_MODEL.md` and then ask.
-- Never bypass the bundle CI. If you cannot do something through `dabgen`, stop and explain.
+It points at the other layers. It does not try to be them.
 
-It points at the other tiers. It does not try to be them.
+## Layer 3: Rules (the standing knowledge layer)
 
-Failure mode this tier solves: the agent forgets the basics that the team takes for granted. The unwritten rules. The boring conventions that have a one-line answer but cost a half hour every time a new joiner steps on them.
+`CLAUDE.md` is the constitution. Rules are the case law.
 
-## Tier 3: Rules (the skill-level guidance)
+For us, rules live in `.claude/rules/*.md`: project-specific guidance documents that get loaded when the agent is doing a specific kind of work. SQL style. Spark conventions. Logging patterns. The data-querying protocol. Loading all of them in `CLAUDE.md` would blow the context budget on a session that only needs one of them.
 
-CLAUDE.md is the constitution. Rules are the case law.
+A concrete example. We have a rule that says: <span class="rb-pull">never `CREATE TABLE` inside a [StarRocks](https://www.starrocks.io/) publication job; always declare the schema in the bundle and let the catalog manage it</span>. That rule lives in `.claude/rules/databricks.md`, referenced from the skills that touch StarRocks. It is not in `CLAUDE.md`, because most sessions do not touch StarRocks. When a session does, the rule is right there.
 
-For us, "rules" live one level down: project-specific guidance documents that get loaded when the agent is doing a specific kind of work. The Databricks rules are different from the React rules are different from the data-platform rules. Loading all of them in CLAUDE.md would blow the context budget on a session that only needs one of them.
+## Layer 4: Skills
 
-A concrete example. We have a rule that says: <span class="rb-pull">never `CREATE TABLE` inside a StarRocks publication job; always declare the schema in the bundle and let the catalog manage it</span>. That rule lives in a `databricks-rules.md` file that is referenced from the relevant skills. It is not in CLAUDE.md, because most sessions do not touch StarRocks. When a session does touch StarRocks, the rule is right there.
+This is the layer most people are writing about right now (rightly, because it is the most useful new piece). A skill is a small package: a description, a body, optional resources, and the metadata that helps the agent decide when to invoke it. It is also the layer where _composition_ starts to matter. Skills invoke skills. Skills read rules. Rules reference the data model.
 
-Failure mode this tier solves: the agent has good general instincts but no project-specific judgment. The rule layer is where local taste lives.
+We have eight in active use. The two that earn their keep most visibly:
 
-## Tier 4: Skills
+- `tenant-onboarding`: the end-to-end skill that drives a new wholesaler onboarding, from initial config to bundle generation to QA gates. One invocation, sixteen SQL queries, seven config decisions, two human confirmations. Replaces a 12-step Notion runbook.
+- `bsr-issue-resolver`: an orchestrator that takes a triaged business-rule report and walks the resolution path: query Databricks, draft the annotation, push to PR.
 
-This is the layer everyone is writing about right now (rightly, because it is the most useful new piece). A skill is a small package: a description, an optional set of instructions, and the metadata that helps the agent decide when to invoke it.
+The orchestrators sit on top of specialists (`bundle-generator`, `bsr-annotation-generator`) which sit on top of primitives (`notebook-runner`, the MCPs). Each layer of skill knows less about the world and more about its specific job. A primitive does not know it is part of an onboarding. The onboarding does not know which notebook will run.
 
-We have a handful of skills that earn their keep:
+The way we use them, a script encodes one path. A skill encodes a capability: when to use it, what to do when it fails, what to fall back to. When something goes sideways (and at 50 tenants, something is always going sideways), a script gives up at the first unhandled case. A skill gives the agent enough structure to recover.
 
-- `tenant-onboarding`: the end-to-end skill that drives a new wholesaler onboarding, from initial config to bundle generation to QA gates.
-- `databricks-data-query`: query the data warehouse safely, with the DATA_MODEL.md context preloaded.
-- `dabgen-bundle`: generate or modify a Databricks Asset Bundle for a tenant, including the validation step that catches 80% of mistakes before CI does.
-- `fix-german-form`: yes, really. We have one because filling German bureaucracy PDFs is an annoying recurring task and a skill plus a coordinate-detection script beats Googling each form's quirks for the third time.
+## Layer 5: Tools
 
-A skill is more than a script. A script encodes one path. A skill encodes a capability: when to use it, what to do when it fails, what to fall back to. It negotiates with the agent. The Tuesday-tenant incident is unlikely to repeat partly because `tenant-onboarding` now invokes `databricks-data-query` to verify the join before generating the bundle. The skill knows the failure mode, because we wrote it after watching the failure mode happen.
+Tools are the execution surface. They are what the agent actually invokes once the knowledge layers have told it what to do. CLIs, [MCP servers](https://modelcontextprotocol.io/), shell commands, the file system.
 
-Failure mode this tier solves: the agent is good at one-shot tasks but loses the plot on multi-step workflows. Skills are how you teach it the workflow.
+We have a strong preference for CLIs over MCP servers (the [recap post]({% post_url 2026-04-29-databricks-berlin-user-group-recap %}) goes into why). The short version: CLIs are one tool invocation, one stdout, done. MCP servers are tokens, schemas, and a hosted service that occasionally has a hiccup mid-flow. Our default is to build the CLI first and expose it as MCP only when the convenience tax pays for itself.
 
-## Tier 5: Tools
+Our agent's tool surface is intentionally small. A few well-chosen CLIs (`query_databricks.py`, `dabgen`, `validate_bundle.py`), the standard file/git/grep tools, and one or two MCP servers where the integration is worth it. The agent does better with a small number of sharp tools than a large number of overlapping ones.
 
-The bottom of the agent's reach. Tools are what the agent actually invokes. CLIs, [MCP servers](https://modelcontextprotocol.io/), shell commands, the file system.
+## The stack at a glance
 
-We have a strong preference for CLIs over MCP servers (the [recap post](/blog/2026/databricks-berlin-user-group-recap/) goes into why). The short version: CLIs are one tool invocation, one stdout, done. MCP servers are tokens, schemas, and a hosted service that occasionally has a hiccup mid-flow. Our default is to build the CLI first and expose it as MCP only when the convenience tax pays for itself.
+```
+┌─────────────────────────────────────────────────────────┐
+│  Layer 5 — Tools         CLIs, MCP servers, shell, fs   │
+├─────────────────────────────────────────────────────────┤
+│  Layer 4 — Skills        capabilities, not scripts      │
+├─────────────────────────────────────────────────────────┤
+│  Layer 3 — Rules         project-specific case law      │
+├─────────────────────────────────────────────────────────┤
+│  Layer 2 — CLAUDE.md     the constitution, kept short   │
+├─────────────────────────────────────────────────────────┤
+│  Layer 1 — Data model    the floor                      │
+└─────────────────────────────────────────────────────────┘
+            each layer earned by a failure it solves
+```
 
-Our agent's tool surface is intentionally small. A few well-chosen CLIs (`query_databricks.py`, `dabgen`, `validate_bundle.py`), the standard file/git/grep tools, and one or two MCP servers where the integration is worth it. The smaller the surface, the easier the agent's life. The agent does not need to be told which of forty tools to pick. It has six, each one specific.
+| Layer       | What went wrong before                                          |
+| ----------- | --------------------------------------------------------------- |
+| Data model  | The agent wrote joins that ran but meant the wrong thing        |
+| `CLAUDE.md` | The agent forgot repo-wide conventions                          |
+| Rules       | The agent had general instincts but no project-specific judgment |
+| Skills      | Multi-step workflows drifted halfway through                    |
+| Tools       | The agent had too many ways to do the same thing                |
 
-Failure mode this tier solves: tool sprawl. The agent has too many ways to do the same thing, picks the wrong one half the time, and burns its context on tool definitions instead of the actual problem.
+## What you get when the layers stack
 
-## What you get when the tiers stack
+The layers are cumulative. `CLAUDE.md` could tell the agent to be careful with data, but that did not help until there was an actual data model to read. Skills could orchestrate onboarding, but only after the StarRocks and Databricks rules were pulled out of people's heads and written down.
 
-The tiers are cumulative. CLAUDE.md without a data model is wishful thinking. Skills without rules are scripts in a costume. Tools without skills are a toolbox with no instruction manual.
-
-When the stack is right, the agent's behavior changes. It pauses to read DATA_MODEL.md before writing a query. It invokes the right skill instead of inventing one. It picks the CLI over the MCP server when both are available, because that is the local preference. It writes a one-line PR description that reads like one of ours, because CLAUDE.md taught it our tone.
+When the stack is right, the agent's behavior changes. It pauses to read `DATA_MODEL.md` before writing a query. It invokes the right skill instead of inventing one. It picks the CLI over the MCP server when both are available, because that is the local preference.
 
 What it does not do is reason about your business. That part is still yours.
 
 ## The honest bit
 
-We did not build this scaffold up-front. We built it incident by incident. Tier 1 came from a tenant getting the wrong join. Tier 2 came from an agent that kept reinventing our linting setup. Tier 3 came from a `CREATE TABLE` that broke StarRocks publication. Tier 4 came from realizing the same five steps were happening every onboarding and the agent was redoing them from scratch each time. Tier 5 came from a long Saturday spent watching MCP roundtrips eat token budget on a job that should have been fast.
+We did not build this scaffold up-front. We built it incident by incident. The migration out of a bloated `CLAUDE.md` is one example. The `databricks-data-query` skill came after the agent wrote one too many fanciful joins. The `.claude/rules/databricks.md` was born the day a `CREATE TABLE` broke a StarRocks publication. The narrow tool surface came from a Saturday spent watching MCP roundtrips eat a token budget on a job that should have been fast.
 
-Each tier is a scar. Each scar is now a piece of scaffolding.
+Each layer is a scar. Each scar is now scaffolding.
 
-So if you are setting up a coding agent on a real codebase and the experience feels uneven (sometimes brilliant, sometimes confidently wrong), my advice is to look at the bottom of the stack first. Most of the configuration content I have read this year assumes the data model is already understood. In a real B2B codebase, it usually is not. That is the floor. Build it before you build the skills.
+So if your coding agent is sometimes brilliant and sometimes confidently wrong, do not start by adding another prompt. Look at the bottom of the stack. In a real B2B codebase, the agent usually does not understand the data model. Build that floor first. Then build the skills.
 
-I have more to say about each tier individually (tier 1 deserves its own post, probably two). For now: five layers, each earned by a specific kind of failure, and the deepest one is the one most posts skip.
+## Related reading
+
+The configuration layer is already well covered:
+
+- Martin Fowler, [Context Engineering for Coding Agents](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html)
+- Shrivu Shankar, [How I Use Every Claude Code Feature](https://blog.sshh.io/p/how-i-use-every-claude-code-feature)
+- Dean Blank, [A Mental Model for Claude Code](https://levelup.gitconnected.com/a-mental-model-for-claude-code-skills-subagents-and-plugins-3dea9924bf05)
+- Anthropic, [Skills documentation](https://code.claude.com/docs/en/skills)
+- Anthropic, [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices)
+
+What I think is still under-discussed in Claude Code setup guides is the layer underneath: the data model the agent is supposed to operate on.
