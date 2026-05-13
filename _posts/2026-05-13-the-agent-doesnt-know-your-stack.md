@@ -6,6 +6,7 @@ date: 2026-05-13 07:00:00
 categories: ai-engineering
 tags: claude_code ai_coding plato databricks dabs skills context_engineering
 description: Five layers between a coding agent and a real production codebase. The deepest one is the one most posts skip.
+og_image: /assets/img/posts/social/agent-doesnt-know-your-stack-social.jpg
 featured: true
 ---
 
