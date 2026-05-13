@@ -2,7 +2,7 @@
 layout: post
 title: "The Agent Doesn't Know Your Stack"
 subtitle: "What I had to teach Claude before it could ship to production"
-date: 2026-05-13 09:00:00
+date: 2026-05-13 07:00:00
 categories: ai-engineering
 tags: claude_code ai_coding plato databricks dabs skills context_engineering
 description: Five layers between a coding agent and a real production codebase. The deepest one is the one most posts skip.
