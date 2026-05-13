@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/about/";
           },
-        },{id: "post-databricks-berlin-user-group-a-recap-and-a-surprise",
+        },{id: "post-the-agent-doesn-39-t-know-your-stack",
+        
+          title: "The Agent Doesn&#39;t Know Your Stack",
+        
+        description: "Five layers between a coding agent and a real production codebase. The deepest one is the one most posts skip.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/the-agent-doesnt-know-your-stack/";
+          
+        },
+      },{id: "post-databricks-berlin-user-group-a-recap-and-a-surprise",
         
           title: "Databricks Berlin User Group: A Recap and a Surprise",
         
