@@ -19,18 +19,21 @@ services:
       - .:/srv/jekyll
     environment:
       - JEKYLL_ENV=development
-    # Override the image entrypoint to include --unpublished so locally
-    # we preview posts marked `published: false`. The deploy workflow runs
-    # `bundle exec jekyll build` without this flag and excludes them.
+    # Override the image entrypoint so locally we preview posts that the
+    # deploy build would exclude:
+    #   --unpublished : show posts marked `published: false`
+    #   --future      : show posts with a date in the future
+    # The deploy workflow runs `jekyll build` without these flags, so
+    # neither set is visible on mfcabrera.com.
     #
     # --drafts is intentionally NOT included: the al-folio sample posts
-    # in _drafts/ have inter-post Liquid links to other drafts that break
-    # the build. Use `published: false` in _posts/ for your own drafts.
+    # in _drafts/ have inter-post Liquid links that break the build.
+    # Use `published: false` in _posts/ for your own drafts.
     command: >
       bash -c "
       git config --global --add safe.directory '*';
       bundle exec jekyll serve
       --watch --port=8080 --host=0.0.0.0 --livereload
       --force_polling --trace
-      --unpublished
+      --unpublished --future
       "
