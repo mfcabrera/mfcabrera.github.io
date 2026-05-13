@@ -7,7 +7,6 @@ categories: ai-engineering
 tags: claude_code ai_coding plato databricks dabs skills context_engineering
 description: Five layers between a coding agent and a real production codebase. The deepest one is the one most posts skip.
 featured: true
-published: false
 ---
 
 The [talk]({% post_url 2026-04-29-databricks-berlin-user-group-recap %}) had a slide titled "The Agent Doesn't Know Your Stack." I keep going back to it, weeks after the Databricks meetup in Berlin. The punchline at the end of the section was: <span class="rb-pull">prompt-engineering gets you a demo, knowledge scaffolding gets you production</span>.
@@ -30,7 +29,7 @@ This is where most of the work is. It is also the layer that is invisible until 
 
 Our model is a dimensional warehouse. Facts (orders, line items, quotes), dimensions (customer, article, time), aggregates published into [StarRocks](https://www.starrocks.io/) for the app to query. The names are conventional. The semantics are not.
 
-The order-status example is the one that hurts the most. Our `order_line_transaction_facts` table has an `order_status` column. For some tenants it has four values (`BILLED`, `OPEN`, `PARTIALLY_BILLED`, `NULL`) and `order_status` and `order_line_status` always match. For others (the ones with messier ERPs) it has 40+ combinations of header and line statuses that can diverge, plus values like `CANCELLED`, `LOST`, `RECEIVED`, `REVISED`, `RELEASED_FOR_BILLING`. If the agent writes a "revenue last quarter" query without filtering by status, it will quietly sum cancelled and lost orders along with the real ones. Depending on the tenant, that can inflate revenue 2 to 5x. The query runs. The number looks plausible. The dashboard ships.
+The order-status example is the one that hurts the most. Our `order_line_transaction_facts` table has an `order_status` column. For some tenants it has a small set of clean values (`BILLED`, `OPEN`, `PARTIALLY_BILLED`, `NULL`) and the header and line statuses always match. For others, with messier ERPs, it has dozens of header/line combinations that can diverge, plus values like `CANCELLED`, `LOST`, `RECEIVED`, `REVISED`, `RELEASED_FOR_BILLING`. If the agent writes a "revenue last quarter" query without filtering by status, it will quietly sum cancelled and lost orders along with the real ones. Depending on the tenant, that can materially overstate the number. The query runs. The number looks plausible. The dashboard ships.
 
 This kind of detail does not live in column names. It cannot. There is no naming convention strong enough to encode "two tenants disagree about which states count as revenue." It has to live in prose.
 
